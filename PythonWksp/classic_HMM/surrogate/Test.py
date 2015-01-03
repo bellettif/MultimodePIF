@@ -1,7 +1,7 @@
 '''
 Created on 8 mai 2014
 
-@author: francois
+@author: Francois Belletti
 '''
 
 from Markov_model import *
