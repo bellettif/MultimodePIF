@@ -51,12 +51,6 @@ for osm_id in osm_ids:
     
 print set(id_counts.values())
 
-
-
-    
-
-raise Exception
-    
 for railway_section in find_near(railways,
                                  example_coords):
     plot_doc(ax, railway_section)
