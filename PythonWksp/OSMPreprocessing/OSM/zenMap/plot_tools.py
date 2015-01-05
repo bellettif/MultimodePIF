@@ -1,6 +1,9 @@
 '''
 Created on Jan 4, 2015
 
+    Plot tools for json documents in ZenMap format.
+    This format is now deprecated.
+
 @author: Francois Belletti
 '''
 
@@ -38,8 +41,13 @@ def plot_doc(ax, doc):
             ax.plot(lons, lats, c = color, linestyle = '--')
         else:
             ax.plot(lons, lats, c = color)
-    if geom_type == 'Point' and doc['properties']['railway'] == 'subway_entrance':
+    if geom_type == 'Point' and doc['properties']['railway'] in ['subway_entrance',
+                                                                 'station',
+                                                                 'tram_stop']:
+        coords = geom['coordinates']
+        ax.scatter(coords[0], coords[1], c = 'red')
+    if geom_type == 'Point' and doc['properties']['highway'] == 'bus_stop':
         coords = geom['coordinates']
         print doc
-        ax.scatter(coords[0], coords[1], c = 'red')
+        ax.scatter(coords[0], coords[1], c = 'yellow')
     
