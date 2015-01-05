@@ -16,6 +16,7 @@ import xml.etree.ElementTree as ET
 from matplotlib import pyplot as plt
 
 from plot_tools import plot_network
+from road_network import reduce_network
 
 def l2_dist(node_1, node_2):
     lat_1 = float(node_1.get('lat'))
@@ -176,5 +177,18 @@ print linked_nodes
 fig, ax = plt.subplots()
 plot_network(node_dict, linked_nodes, ax)
 plt.show()
+
+#
+#    Reduce the network to those nodes only that are necessary
+#
+reduce_network(linked_nodes)
+fig, ax = plt.subplots()
+plot_network(node_dict, linked_nodes, ax)
+plt.show()
+
+
+
+
+
 
 
