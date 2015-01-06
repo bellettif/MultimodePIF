@@ -18,7 +18,7 @@ def plot_network(node_dict, linked_nodes, ax):
             mid_lat   = 0.5 * (node_lat + neigh_lat)
             mid_lon   = 0.5 * (node_lon + neigh_lon)
             ax.plot([node_lon, neigh_lon], [node_lat, neigh_lat],
-                    c = HIGHWAY_COLORS[features['highway_type']])
+                    c = HIGHWAY_COLORS[features['highway']])
             ax.scatter([node_lon, neigh_lon], [node_lat, neigh_lat],
-                    c = HIGHWAY_COLORS[features['highway_type']])
-            ax.text(mid_lon, mid_lat, features['max_speed'], fontsize = 8)
+                    c = HIGHWAY_COLORS[features['highway']])
+            ax.text(mid_lon, mid_lat, features['maxspeed'], fontsize = 8)
