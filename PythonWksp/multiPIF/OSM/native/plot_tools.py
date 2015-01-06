@@ -33,8 +33,6 @@ def plot_rail_network(node_dict, linked_nodes, ax):
         for neigh_id, features in neighbours.iteritems():
             neigh_lat = float(node_dict[neigh_id].get('lat'))
             neigh_lon = float(node_dict[neigh_id].get('lon'))
-            mid_lat   = 0.5 * (node_lat + neigh_lat)
-            mid_lon   = 0.5 * (node_lon + neigh_lon)
             ax.plot([node_lon, neigh_lon], [node_lat, neigh_lat],
                     c = RAIL_COLORS[features['railway']])
             ax.scatter([node_lon, neigh_lon], [node_lat, neigh_lat],
