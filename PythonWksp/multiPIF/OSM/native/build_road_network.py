@@ -6,20 +6,26 @@ Created on Jan 5, 2015
 @author: Francois Belletti
 '''
 
-DEFAULT_FILEPATH = "/Users/cusgadmin/MultimodePIF/Data/OSM/Berkeley/map.osm.xml"
+INPUT_FILEPATH = "/Users/cusgadmin/MultimodePIF/Data/OSM/Berkeley/map.osm.xml"
+OUTPUT_FILEPATH = "/Users/cusgadmin/MultimodePIF/Data/OSM/Berkeley/network.geojson"
 
 HIGHWAY_KEY = 'highway'
 HIGHWAY_VALUES = ['primary', 'secondary', 'tertiary']
 
-import numpy as np
+DEFAULT_MAX_SPEEDS = {'primary' : 55.0,
+                      'secondary' : 25.0,
+                      'tertiary' : 25.0}
+
 import xml.etree.ElementTree as ET
+import json
+import numpy as np
 from matplotlib import pyplot as plt
 
 from plot_tools import *
 from network_tools import *
 
 
-tree = ET.parse(DEFAULT_FILEPATH) 
+tree = ET.parse(INPUT_FILEPATH)
 root = tree.getroot()
 
 nodes = root.findall('node')
@@ -54,6 +60,39 @@ links = split_ways(highways, ref_highways, node_dict, target_features)
 #
 linked_nodes = link_nodes(links, target_features)
 
+data = []
+for node_id, neigh_dict in linked_nodes.iteritems():
+    osm_node = node_dict[node_id]
+    # Extract node info
+    osm_id = int(node_id)
+    lon = float(osm_node.get('lon'))
+    lat = float(osm_node.get('lat'))
+    neigh_list = []
+    for neigh_id, edge_desc in neigh_dict.iteritems():
+        neigh_list.append({"osm_id"    : int(neigh_id),
+                           "edge_info" : {
+                                "length"   : edge_desc['length'],
+                                "maxspeed" : float(edge_desc['maxspeed'].split(' ')[0])
+                                    if edge_desc['maxspeed'] != None 
+                                    else DEFAULT_MAX_SPEEDS[edge_desc['highway']],
+                                "highway"  : edge_desc['highway']}})
+    datum = {"properties" : {
+                "osm_id"   : osm_id,
+                "neighbors" : neigh_list},
+             "geometry" : {
+                "type" : "Point",
+                "coordinates" : [lon, lat]}}
+    data.append(datum)
+    
+geojson_dump = {"type": "FeatureCollection",
+                "crs": {
+                    "type": "name", 
+                    "properties": { "name": "urn:ogc:def:crs:OGC:1.3:CRS84" }}, 
+                "features":
+                    data}
+
+json.dump(geojson_dump, open(OUTPUT_FILEPATH, 'wb'))
+    
 #
 #    Check that degrees make sense
 #
@@ -64,21 +103,14 @@ linked_nodes = link_nodes(links, target_features)
 #
 #    Check that network makes sense
 #
-fig, ax = plt.subplots()
-plot_road_network(node_dict, linked_nodes, ax)
-plt.show()
+#fig, ax = plt.subplots()
+#plot_road_network(node_dict, linked_nodes, ax)
+#plt.show()
 
 #
 #    Reduce the network to those nodes only that are necessary
 #
-reduce_network(linked_nodes, target_features)
-fig, ax = plt.subplots()
-plot_road_network(node_dict, linked_nodes, ax)
-plt.show()
-
-
-
-
-
-
-
+#reduce_network(linked_nodes, target_features)
+#fig, ax = plt.subplots()
+#plot_road_network(node_dict, linked_nodes, ax)
+#plt.show()

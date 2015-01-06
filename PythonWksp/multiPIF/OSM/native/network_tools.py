@@ -178,4 +178,5 @@ def reduce_network(linked_nodes,
             to_delete.append(node_id)
     for node_id in to_delete:
         del linked_nodes[node_id]
+               
                 
