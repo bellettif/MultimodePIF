@@ -84,6 +84,15 @@ for node_id, neigh_dict in linked_nodes.iteritems():
                 "coordinates" : [lon, lat]}}
     data.append(datum)
     
+#
+#    Temporary
+#
+import cPickle as pickle
+pickle.dump(data, open('../../tempData/tempBerkeley.pi', 'wb'))
+   
+#
+#    Format is not good, need to investigate
+#
 geojson_dump = {"type": "FeatureCollection",
                 "crs": {
                     "type": "name", 
@@ -92,7 +101,7 @@ geojson_dump = {"type": "FeatureCollection",
                     data}
 
 json.dump(geojson_dump, open(OUTPUT_FILEPATH, 'wb'))
-    
+
 #
 #    Check that degrees make sense
 #
