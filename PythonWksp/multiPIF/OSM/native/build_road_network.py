@@ -10,11 +10,12 @@ INPUT_FILEPATH = "/Users/cusgadmin/MultimodePIF/Data/OSM/Berkeley/map.osm.xml"
 OUTPUT_FILEPATH = "/Users/cusgadmin/MultimodePIF/Data/OSM/Berkeley/network.geojson"
 
 HIGHWAY_KEY = 'highway'
-HIGHWAY_VALUES = ['primary', 'secondary', 'tertiary']
+HIGHWAY_VALUES = ['primary', 'secondary', 'tertiary', 'residential']
 
 DEFAULT_MAX_SPEEDS = {'primary' : 55.0,
                       'secondary' : 25.0,
-                      'tertiary' : 25.0}
+                      'tertiary' : 25.0,
+                      'residential' : 15.0}
 
 import xml.etree.ElementTree as ET
 import json

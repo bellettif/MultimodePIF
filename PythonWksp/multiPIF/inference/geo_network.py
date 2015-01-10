@@ -44,15 +44,14 @@ class Geo_network:
                 
     #
     #    Upper_bound must be in meters
+    #    Make the assumption that edges are unique (one to one)
     #
     def find_all_paths(self, start, end, upper_bound):
-        candidate_paths = {}
-        candidate_paths[start] = [(str(start), 0.0)]
         #
         final_paths = []
         #
-        active_nodes = deque()
-        active_nodes.append(start)
+        active_paths = set()
+        active_paths.add('%d_%f' % (start, 0.0))
         #
         end_lon = self.lkd_nds[end]['lon']
         end_lat = self.lkd_nds[end]['lat']
@@ -62,50 +61,40 @@ class Geo_network:
                                end_lon,
                                end_lat)
         #
-        while len(active_nodes) > 0:
-            print len(active_nodes)
-            print active_nodes
+        while len(active_paths) > 0:
+            print len(active_paths)
+            print active_paths
             print '\n'
-            nd_id = active_nodes.pop()
-            nd = self.lkd_nds[nd_id]
-            paths = candidate_paths[nd_id]
+            current_path = active_paths.pop().split('_')
+            nd_ids = current_path[:-1]
+            nd_id = int(nd_ids[-1])
+            dist = float(current_path[-1])
+            path_id = '_'.join(nd_ids)
             nexts = self.lkd_nds[nd_id]['neigh']
             for next_nd in nexts:
                 next_id = next_nd['osm_id']
-                #print 'Next id = %d' % next_id
+                if next_id == nd_id:
+                    continue
                 if next_id != end:
+                    if str(next_id) in nd_ids:
+                        # Looping path, discard
+                        continue
                     min_dist_to_dest = dist_to_dest(next_id)
-                    for (path_id, dist) in paths:
-                        if str(next_id) in path_id.split('_'):
-                            #print '\tDiscarding for looping'
-                            # Looping path, discard
-                            continue
-                        if (dist + min_dist_to_dest) > upper_bound :
-                            #print '\tDiscarding for heuristic'
-                            # This path cannot be admissible
-                            continue
-                        #print '\tConsidering path'
-                        length = next_nd['edge_info']['length'] 
-                        if next_id not in candidate_paths:
-                            candidate_paths[next_id] = []
-                        candidate_paths[next_id].append((path_id +
-                                                         '_' +
-                                                         str(next_id),
-                                                         dist + length))
-                        print 'Adding %s to %s' % (next_id, path_id)
-                        active_nodes.append(next_id)
+                    if (dist + min_dist_to_dest) > upper_bound :
+                        # This path cannot be admissible
+                        continue
+                    length = next_nd['edge_info']['length'] 
+                    active_paths.add(path_id + '_' + str(next_id) + 
+                                     '_' + str(dist + length))
                 else:
                     length = next_nd['edge_info']['length']
-                    for (path_id, dist) in candidate_paths[nd_id]:
-                        total_dist = length + dist
-                        if total_dist > upper_bound:
-                            # This path is not admissible, discard it
-                            #print '\tDiscarding from exact distance'
-                            continue
-                        else:
-                            #print '\tFound path %s to %d' % (path_id, end)
-                            final_paths.append(path_id + '_' + str(end))
-            #del candidate_paths[nd_id]
+                    total_dist = length + dist
+                    if total_dist > upper_bound:
+                        # This path is not admissible, discard it
+                        continue
+                    else:
+                        final_paths.append({'nodes' : path_id + '_' + str(end),
+                                            'length' : total_dist})
         return final_paths
 
                 
@@ -126,14 +115,14 @@ lat_1 = my_network.lkd_nds[start]['lat']
 lon_2 = my_network.lkd_nds[end]['lon']
 lat_2 = my_network.lkd_nds[end]['lat']
 
-print computeDist(lon_1, lat_1, lon_2, lat_2)
+dist = computeDist(lon_1, lat_1, lon_2, lat_2)
 
-paths = my_network.find_all_paths(start, end, 2000)
+paths = my_network.find_all_paths(start, end, dist * 1.35)
 
 print paths
 path_points = []
 for path in paths:
-    path_points.extend(map((lambda x : int(x)), path.split('_')))
+    path_points.extend(map((lambda x : int(x)), path['nodes'].split('_')))
     
 print path_points
 
