@@ -6,6 +6,8 @@ Created on Jan 5, 2015
 
 import numpy as np
 
+from OSM.misc.geoTools import computeDist
+
 #
 #    Need to change that distance
 #
@@ -14,7 +16,7 @@ def l2_dist(node_1, node_2):
     lon_1 = float(node_1.get('lon'))
     lat_2 = float(node_2.get('lat'))
     lon_2 = float(node_2.get('lon'))
-    return np.sqrt((lat_1 - lat_2) ** 2 + (lon_1 - lon_2) ** 2)
+    return computeDist(lon_1, lat_1, lon_2, lat_2)
 
 #
 #    Extract a given target network (road, rail, subway)

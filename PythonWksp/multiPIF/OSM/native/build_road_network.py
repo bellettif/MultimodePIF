@@ -24,7 +24,6 @@ from matplotlib import pyplot as plt
 from plot_tools import *
 from network_tools import *
 
-
 tree = ET.parse(INPUT_FILEPATH)
 root = tree.getroot()
 
@@ -76,12 +75,15 @@ for node_id, neigh_dict in linked_nodes.iteritems():
                                     if edge_desc['maxspeed'] != None 
                                     else DEFAULT_MAX_SPEEDS[edge_desc['highway']],
                                 "highway"  : edge_desc['highway']}})
-    datum = {"properties" : {
+    datum = {"type" : "Feature",
+             "properties" : {
                 "osm_id"   : osm_id,
-                "neighbors" : neigh_list},
+                "neighbors" : neigh_list
+                },
              "geometry" : {
                 "type" : "Point",
-                "coordinates" : [lon, lat]}}
+                "coordinates" : [lon, lat]}
+             }
     data.append(datum)
     
 #
@@ -93,13 +95,9 @@ pickle.dump(data, open('../../tempData/tempBerkeley.pi', 'wb'))
 #
 #    Format is not good, need to investigate
 #
-geojson_dump = {"type": "FeatureCollection",
-                "crs": {
-                    "type": "name", 
-                    "properties": { "name": "urn:ogc:def:crs:OGC:1.3:CRS84" }}, 
-                "features":
-                    data}
+geojson_dump = data
 
+#Use --jsonArray when importing in MongoDB
 json.dump(geojson_dump, open(OUTPUT_FILEPATH, 'wb'))
 
 #
