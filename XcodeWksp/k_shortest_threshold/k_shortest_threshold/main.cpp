@@ -60,11 +60,11 @@ int main(int argc, const char * argv[]) {
                          std::pow(coords_1.second - coords_2.second, 2));
     };
     
-    std::vector<int> opt_path = my_graph.A_star_threshold(0, 4, euclidian_norm, 10.0);
+    Path<double>* opt_path = my_graph.A_star_threshold(0, 4, euclidian_norm, 10.0);
     
-    for(int x : opt_path){
-        std::cout << x << " ";
-    }
+    opt_path->plot();
+    
+    delete opt_path;
     
     return 0;
 }
