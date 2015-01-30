@@ -19,23 +19,23 @@ typedef std::unordered_map<int, int_int_map>            int_int_int_map;
 template<typename T>
 class Edge_map{
     
-    typedef std::unordered_map<int, T>                  T_vect;
-    typedef std::unordered_map<int, T_vect>             int_T_vect_map;
-    typedef std::unordered_map<int, int_T_vect_map>     int_int_T_vect_map;
+    typedef std::unordered_map<int, T>                  T_map;
+    typedef std::unordered_map<int, T_map>              int_T_map_map;
+    typedef std::unordered_map<int, int_T_map_map>      int_int_T_map_map;
     
     
 private:
-    int_int_T_vect_map  m_edges;
+    int_int_T_map_map  m_edges;
     int_int_int_map     m_n_edges;
 
     
 public:
     
-    inline const int_T_vect_map & get_edges(int node) const{
+    inline const int_T_map_map & get_edges(int node) const{
         return m_edges.at(node);
     }
     
-    inline const T_vect & get_edges(int start, int dest) const{
+    inline const T_map & get_edges(int start, int dest) const{
         return m_edges.at(start).at(dest);
     }
     

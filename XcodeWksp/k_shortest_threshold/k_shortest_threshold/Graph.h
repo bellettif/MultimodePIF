@@ -123,15 +123,17 @@ public:
             closed_nd_set.insert(current_node);
             
             current_dist = dists_from_start[current_node];
+            int i;
             
             for(const auto & node_dict_item : m_edges.get_edges(current_node)){
                 
                 dest_node = node_dict_item.first; // Other end of the edge
                 
                 // We assume there can be several edges between current_node and dest_node
-                for(int i = 0; i < node_dict_item.second.size(); ++i){
+                i = 0;
+                for(const auto & x : node_dict_item.second){
                     
-                    candidate_dist = current_dist + node_dict_item.second.at(i);
+                    candidate_dist = current_dist + x.second;
                     
                     if (candidate_dist > threshold) continue;
                     
@@ -148,7 +150,7 @@ public:
                        ||
                        (candidate_dist < dists_from_start[dest_node])){ // Better candidate
                         dists_from_start[dest_node] = candidate_dist;
-                        previous.rev_dict[dest_node] = {current_node, i};
+                        previous.rev_dict[dest_node] = {current_node, i++};
                         if((closed_nd_set.count(dest_node) == 0) // Neighbor already in close set
                            &&
                            (active_nd_set.count(dest_node) == 0)){ // Neighbor already in active set
