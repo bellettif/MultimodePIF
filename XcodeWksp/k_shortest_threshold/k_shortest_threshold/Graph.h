@@ -26,8 +26,6 @@ typedef std::unordered_map<int, int_int_map>    int_int_int_map_map;
 typedef std::unordered_map<int, int_int_map>    int_int_int_map_map;
 typedef std::set<int>                           int_set;
 typedef std::unordered_map<int, int_set>        int_int_set_map;
-typedef std::unordered_map<int,
-                           int_int_set_map>     int_int_int_set_map_map;
 typedef std::vector<int>                        int_vect;
 
 
@@ -37,11 +35,11 @@ class Graph{
     typedef std::unordered_map<int, T1>             int_T1_map;
     typedef std::unordered_map<int, T2>             int_T2_map;
     typedef std::unordered_map<int, int_T2_map>     int_int_T2_map_map;
-    typedef std::unordered_map<int,
-                               int_int_T2_map_map>  int_int_int_T2_map_map_map;
     typedef std::pair<T2, int_vect>                 T2_int_vect_pair;
     typedef std::vector<T2_int_vect_pair>           T2_int_vect_pair_vect;
-    
+    typedef std::unordered_map<int, Path<T2>*>      int_path_ptr_map;
+    typedef std::unordered_map<int,
+                                int_path_ptr_map>   int_int_path_ptr_map_map;
     
 private:
     
@@ -115,7 +113,8 @@ public:
             current_node = active_nds.top();
             
             if(current_node == sink_node){
-                return new Path<T2>(previous, start_node, sink_node);
+                return new Path<T2>(previous, m_edges,
+                                    start_node, sink_node);
             }
             
             active_nds.pop();
@@ -123,40 +122,33 @@ public:
             closed_nd_set.insert(current_node);
             
             current_dist = dists_from_start[current_node];
-            int i;
             
             for(const auto & node_dict_item : m_edges.get_edges(current_node)){
                 
                 dest_node = node_dict_item.first; // Other end of the edge
+                candidate_dist = current_dist + node_dict_item.second;
                 
-                // We assume there can be several edges between current_node and dest_node
-                i = 0;
-                for(const auto & x : node_dict_item.second){
-                    
-                    candidate_dist = current_dist + x.second;
-                    
-                    if (candidate_dist > threshold) continue;
-                    
-                    if(heurs_to_sink.count(dest_node) == 0){
-                        heurs_to_sink[dest_node] = candidate_dist +
-                                                    heuristic_fct(m_nodes[dest_node],
-                                                    m_nodes[sink_node]);
-                    }
-                    heur_dist = heurs_to_sink[dest_node];
-                    
-                    if(candidate_dist + heur_dist > threshold) continue;
-                    
-                    if((dists_from_start.count(dest_node) == 0) // Never seen before
-                       ||
-                       (candidate_dist < dists_from_start[dest_node])){ // Better candidate
-                        dists_from_start[dest_node] = candidate_dist;
-                        previous.rev_dict[dest_node] = {current_node, i++};
-                        if((closed_nd_set.count(dest_node) == 0) // Neighbor already in close set
-                           &&
-                           (active_nd_set.count(dest_node) == 0)){ // Neighbor already in active set
-                            active_nds.push(dest_node);
-                            active_nd_set.insert(dest_node);
-                        }
+                if (candidate_dist > threshold) continue;
+                
+                if(heurs_to_sink.count(dest_node) == 0){
+                    heurs_to_sink[dest_node] = candidate_dist +
+                    heuristic_fct(m_nodes[dest_node],
+                                  m_nodes[sink_node]);
+                }
+                heur_dist = heurs_to_sink[dest_node];
+                
+                if(candidate_dist + heur_dist > threshold) continue;
+                
+                if((dists_from_start.count(dest_node) == 0) // Never seen before
+                   ||
+                   (candidate_dist < dists_from_start[dest_node])){ // Better candidate
+                    dists_from_start[dest_node] = candidate_dist;
+                    previous.rev_dict[dest_node] = current_node;
+                    if((closed_nd_set.count(dest_node) == 0) // Neighbor already in close set
+                       &&
+                       (active_nd_set.count(dest_node) == 0)){ // Neighbor already in active set
+                        active_nds.push(dest_node);
+                        active_nd_set.insert(dest_node);
                     }
                 }
             }
@@ -167,17 +159,49 @@ public:
         
     }
     
+    
     /*
-    Yen's thresholded algorithm
+    Yen's algorithm with threshold modification
     */
-    T2_int_vect_pair_vect k_shortest_threshold(const T2 & threshold,
-                                               unsigned int k,
+    std::vector<Path<T2>*> k_shortest_threshold(const T2 & threshold,
+                                               unsigned int K,
                                                int start_node,
                                                int sink_node,
                                                const std::function<T2(T1, T1)> & heuristic_fct,
                                                const std::function<bool(T2,T2)> & heur_comparison = std::greater<T2>()){
         
-        std::vector<Path<T2>*> result;
+        /*
+         Set up
+         */
+        // Keep track of spur costs
+        std::function<bool(std::tuple<int, int, T2>,
+                           std::tuple<int, int, T2>)> comparator =
+                                [](std::tuple<int, int, T2> x,
+                                   std::tuple<int, int, T2> y){
+            return x > y;
+        };
+        std::priority_queue<std::tuple<int, int, T2>,
+                            std::vector<std::tuple<int, int, T2>>,
+                            std::function<bool(std::tuple<int, int, T2>,
+                                               std::tuple<int, int, T2>)>> cost_record (comparator);
+        int_int_path_ptr_map_map    candidate_map;
+        std::vector<Path<T2>*>      result;
+        int_int_set_map             path_edge_map;      // Keep track of edges on paths
+        int                         prev_spur_index         = 1;
+        int                         best_k;
+        int                         best_i;
+        int                         source_to_rm;
+        int                         dest_to_rm;
+        int_vect                    buffer;
+        Path<T2> *                  candidate               = nullptr;
+        Path<T2> *                  best_candidate          = nullptr;
+        int_int_T2_map_map          removed_edges;
+        int_T1_map                  removed_nodes;
+        
+        
+        /*
+         Initialize
+         */
         result.push_back(A_star_threshold(start_node,
                                           sink_node,
                                           heuristic_fct,
@@ -186,60 +210,32 @@ public:
             delete result[0];
             result.clear();
             return result;
+        }else{
+            source_to_rm = result[0]->get_node(0);
+            dest_to_rm   = result[0]->get_node(1);
+            removed_edges[source_to_rm][dest_to_rm] =
+                m_edges.remove_edge(source_to_rm, dest_to_rm);
+            removed_nodes[source_to_rm] = remove_node(source_to_rm, removed_edges);
         }
         
-        std::function<bool(std::tuple<int, int, T2>,
-                           std::tuple<int, int, T2>)> comparator =
-                                [](std::tuple<int, int, T2> x,
-                                   std::tuple<int, int, T2> y){
-            return x > y;
-        };
-        
-        // Keep track of spur costs
-        std::priority_queue<std::tuple<int, int, T2>,
-                            std::vector<std::tuple<int, int, T2>>,
-                            std::function<bool(std::tuple<int, int, T2>,
-                                               std::tuple<int, int, T2>)>> cost_record (comparator);
-
-        int_int_int_set_map_map     path_edge_map;      // Keep track of edges on paths
-        int                         prev_spur_index         = 0;
-    
-        T2                          last_spur_from_origin   = 0;
-        T2                          current_dist            = 0;
-        int_vect                    buffer;
-    
-        Path<T2> *                  candidate               = nullptr;
-        Path<T2> *                  best_candidate          = nullptr;
-        
-        int                         best_k;
-        int                         best_i;
-        
-        int                         source_to_rm;
-        int                         dest_to_rm;
-        int                         edge_to_rm;
-        
-        int_int_int_T2_map_map_map      removed_edges;
-        int_T1_map                      removed_nodes;
-        
-        for(int k_it = 0; k_it < k; ++k){
+        /*
+         Run
+         */
+        for(int k_it = 0; k_it < K - 1; ++k_it){
             
-            const std::vector<std::pair<int, int>> & path_ids = result.back()->get_ids();
-            
-            current_dist = last_spur_from_origin;
-            
+            const std::vector<int> & path_ids = result.back()->get_ids();
+            /*
+             Compute new spurs' costs
+            */
             for(int i = prev_spur_index; i < path_ids.size() - 1; ++i){
                 
-                source_to_rm = path_ids.at(i).first;
-                for(auto const & xy : path_edge_map[source_to_rm]){
-                    dest_to_rm = xy.first;
-                    for(auto const & z : xy.second){
-                        edge_to_rm = z;
-                        removed_edges[source_to_rm][dest_to_rm][edge_to_rm] =
-                            m_edges.remove_edge(source_to_rm, dest_to_rm, edge_to_rm);
-                    }
+                source_to_rm = path_ids.at(i);
+                for(auto const & d : path_edge_map[source_to_rm]){
+                    removed_edges[source_to_rm][d] =
+                        m_edges.remove_edge(source_to_rm, d);
                 }
                 
-                candidate = A_star_threshold(path_ids.at(i).first,
+                candidate = A_star_threshold(path_ids.at(i),
                                              sink_node,
                                              heuristic_fct,
                                              threshold);
@@ -248,40 +244,57 @@ public:
                     continue;
                 }
                 
-                cost_record.push({k_it, i, candidate->get_cost() + current_dist});
+                candidate->concatenate_front(*(result.back()), i);
+                cost_record.push({k_it, i, candidate->get_cost()});
+                candidate_map[k_it][i] = candidate;
                 
-                delete candidate;
+                removed_nodes[source_to_rm] = remove_node(source_to_rm, removed_edges);
+                
             }
-            
-            if(cost_record.empty){
+            if(cost_record.empty()){
                 return result;
             }
             
-            best_k = cost_record.top().first;
-            best_i = cost_record.top().second;
+            /*
+             Select best candidate
+            */
+            best_k = std::get<0>(cost_record.top());
+            best_i = std::get<1>(cost_record.top());
+            best_candidate = candidate_map[best_k][best_i];
             cost_record.pop();
-            
-            best_candidate = A_star_threshold(result[best_k]->get_node(best_i),
-                                              sink_node,
-                                              heuristic_fct, threshold);
-            path_edge_map[result[best_k]->get_node(best_i)]
-                            [best_candidate->get_node(1)].insert(best_candidate->get_edge(0));
-            
-            // Need to concatenate
-            result.push_back(best_candidate);
-            
-            for(auto const & xyzw : removed_edges){
-                for(auto const & yzw : xyzw.second){
-                    for(auto const & yw : yzw.second){
-                        m_edges.add_edge(xyzw.first,
-                                         yzw.first,
-                                         yw.first,
-                                         yw.second);
-                    }
+            candidate_map[best_k].erase(best_i);
+            /*
+             Restore state of the graph
+            */
+            // Add back the edges that had been deleted
+            for(auto const & xyz : removed_edges){
+                for(auto const & yz : xyz.second){
+                    m_edges.add_edge(xyz.first,
+                                     yz.first,
+                                     yz.second);
                 }
             }
             removed_edges.clear();
+            // Add back the nodes that had been delete
+            for(auto const & xy : removed_nodes){
+                m_nodes[xy.first] = xy.second;
+            }
+            removed_nodes.clear();
             
+            std::cout << "Cost before concatenation = " << best_candidate->get_cost() << std::endl;
+            
+            std::cout << "Cost after concatenation = " << best_candidate->get_cost() << std::endl;
+            
+            result.push_back(best_candidate);
+            
+            path_edge_map[result[best_k]->get_node(best_i)].insert(best_candidate->get_node(1));
+
+        }
+        
+        for(const auto & xyz : candidate_map){
+            for(const auto & yz : xyz.second){
+                delete candidate_map[xyz.first][yz.first];
+            }
         }
         
         return result;
@@ -293,10 +306,7 @@ public:
             std::cout << " (" << nd.second.first;
             std::cout << ", " << nd.second.second << "): ";
             for(const auto & xy : m_edges.get_edges(nd.first)){
-                std::cout << xy.first;
-                for(const auto & edge_w : xy.second){
-                    //std::cout << "[" << edge_w << "], ";
-                }
+                std::cout << xy.first << " [" << xy.second << "] ";
             }
             std::cout << std::endl;
         }
@@ -321,24 +331,12 @@ protected:
         return path;
     }
     
-    /*
-    Remove a given edge from the graph (directional !!!)
-    */
-    T2 remove_edge(int origin, int sink){
-        T2 buffer = m_edges[origin][sink];
-        m_edges[origin].erase(sink);
-        return buffer;
-    }
-    
-    /*
-    Add an edge to the graph (directional !!!)
-    */
-    void add_edge(int origin, int sink, T2 weight){
-        m_edges[origin][sink] = weight;
-    }
-    
-    T1 remove_node(int node_id){
+    T1 remove_node(int node_id, int_int_T2_map_map & removed_edges){
         T1 buffer = m_nodes[node_id];
+        auto to_remove_dict (m_edges.get_edges(node_id));
+        for(const auto & xy : to_remove_dict){
+            removed_edges[node_id][xy.first] = m_edges.remove_edge(node_id, xy.first);
+        }
         m_nodes.erase(node_id);
         return buffer;
     }

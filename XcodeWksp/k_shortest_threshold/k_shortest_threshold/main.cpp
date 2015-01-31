@@ -60,11 +60,24 @@ int main(int argc, const char * argv[]) {
                          std::pow(coords_1.second - coords_2.second, 2));
     };
     
+    /*
     Path<double>* opt_path = my_graph.A_star_threshold(0, 4, euclidian_norm, 10.0);
-    
     opt_path->plot();
-    
     delete opt_path;
+    */
+    
+    std::vector<Path<double>*> k_best_paths = my_graph.k_shortest_threshold(10.0,
+                                                                            2,
+                                                                            0,
+                                                                            4,
+                                                                            euclidian_norm);
+    
+    std::cout << "Done with k best paths" << std::endl;
+    
+    for(auto & x : k_best_paths){
+        x->plot();
+        delete x ;
+    }
     
     return 0;
 }
