@@ -314,7 +314,7 @@ public:
     }
     
     
-protected:
+public:
     
     /*
     Get a path from start_node to end_node with the trace of previous nodes
@@ -331,6 +331,10 @@ protected:
         return path;
     }
     
+    T2 remove_edge(int origin, int dest){
+        return m_edges.remove_edge(origin, dest);
+    }
+    
     T1 remove_node(int node_id, int_int_T2_map_map & removed_edges){
         T1 buffer = m_nodes[node_id];
         auto to_remove_dict (m_edges.get_edges(node_id));
@@ -343,6 +347,10 @@ protected:
     
     void add_node(int node_id, T1 feature){
         m_nodes[node_id] = feature;
+    }
+    
+    void add_edge(int origin, int dest, T2 feature){
+        m_edges.add_edge(origin, dest, feature);
     }
     
 };
