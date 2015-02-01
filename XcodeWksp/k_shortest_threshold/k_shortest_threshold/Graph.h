@@ -139,9 +139,8 @@ public:
                 
                 if(candidate_dist + heur_dist > threshold) continue;
                 
-                if((dists_from_start.count(dest_node) == 0) // Never seen before
-                   ||
-                   (candidate_dist < dists_from_start[dest_node])){ // Better candidate
+                if ((dists_from_start.count(dest_node) == 0) || // Never seen before
+                    (candidate_dist < dists_from_start[dest_node])) { // Better candidate
                     dists_from_start[dest_node] = candidate_dist;
                     previous.rev_dict[dest_node] = current_node;
                     if((closed_nd_set.count(dest_node) == 0) // Neighbor already in close set
@@ -186,7 +185,6 @@ public:
                                                std::tuple<int, int, T2>)>> cost_record (comparator);
         int_int_path_ptr_map_map    candidate_map;
         std::vector<Path<T2>*>      result;
-        int_int_set_map             path_edge_map;      // Keep track of edges on paths
         int                         prev_spur_index         = 1;
         int                         best_k;
         int                         best_i;
@@ -229,10 +227,17 @@ public:
             */
             for(int i = prev_spur_index; i < path_ids.size() - 1; ++i){
                 
-                source_to_rm = path_ids.at(i);
-                for(auto const & d : path_edge_map[source_to_rm]){
-                    removed_edges[source_to_rm][d] =
-                        m_edges.remove_edge(source_to_rm, d);
+                source_to_rm    =   path_ids.at(i);
+                dest_to_rm      =   path_ids.at(i+1);
+                removed_edges[source_to_rm][dest_to_rm] =
+                        m_edges.remove_edge(source_to_rm, dest_to_rm);
+                
+                for(int j = 0; j < result.size() - 1; ++j){
+                    if(result[j]->contains(*(result.back()), i)){
+                        dest_to_rm = result.back()->get_node(i + 1);
+                        removed_edges[source_to_rm][dest_to_rm] =
+                            m_edges.remove_edge(source_to_rm, dest_to_rm);
+                    }
                 }
                 
                 candidate = A_star_threshold(path_ids.at(i),
@@ -263,6 +268,7 @@ public:
             best_candidate = candidate_map[best_k][best_i];
             cost_record.pop();
             candidate_map[best_k].erase(best_i);
+            prev_spur_index = best_i;
             /*
              Restore state of the graph
             */
@@ -281,13 +287,7 @@ public:
             }
             removed_nodes.clear();
             
-            std::cout << "Cost before concatenation = " << best_candidate->get_cost() << std::endl;
-            
-            std::cout << "Cost after concatenation = " << best_candidate->get_cost() << std::endl;
-            
             result.push_back(best_candidate);
-            
-            path_edge_map[result[best_k]->get_node(best_i)].insert(best_candidate->get_node(1));
 
         }
         

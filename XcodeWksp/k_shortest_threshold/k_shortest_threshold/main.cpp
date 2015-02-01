@@ -37,6 +37,7 @@ int main(int argc, const char * argv[]) {
     int_dou_pair edge_w_2_1 = {1, 1.0};
     int_dou_pair edge_w_2_3 = {3, 1.0};
     int_dou_pair edge_w_3_0 = {0, 5.0};
+    int_dou_pair edge_w_3_2 = {2, 1.0};
     int_dou_pair edge_w_3_4 = {4, 2.0};
     int_dou_pair edge_w_4_3 = {3, 2.0};
     
@@ -44,31 +45,12 @@ int main(int argc, const char * argv[]) {
         {edge_w_0_1, edge_w_0_3},
         {edge_w_1_0, edge_w_1_2, edge_w_1_3},
         {edge_w_2_1, edge_w_2_3},
-        {edge_w_3_0, edge_w_3_4},
+        {edge_w_3_0, edge_w_3_2, edge_w_3_4},
         {edge_w_4_3}
     };
     
     Graph<dou_dou_pair, double> my_graph (node_features,
                                           neighbors);
-    
-    my_graph.plot();
-    
-    std::unordered_map<int,
-                       std::unordered_map<int, double>> removed_edges;
-    
-    dou_dou_pair temp = my_graph.remove_node(2, removed_edges);
-    
-    my_graph.plot();
-    
-    my_graph.add_node(2, temp);
-    
-    my_graph.plot();
-    
-    for(const auto & xyz : removed_edges){
-        for(const auto & yz : xyz.second){
-            my_graph.add_edge(xyz.first, yz.first, yz.second);
-        }
-    }
     
     my_graph.plot();
     
@@ -79,14 +61,8 @@ int main(int argc, const char * argv[]) {
                          std::pow(coords_1.second - coords_2.second, 2));
     };
     
-    /*
-    Path<double>* opt_path = my_graph.A_star_threshold(0, 4, euclidian_norm, 10.0);
-    opt_path->plot();
-    delete opt_path;
-    */
-    
     std::vector<Path<double>*> k_best_paths = my_graph.k_shortest_threshold(10.0,
-                                                                            2,
+                                                                            4,
                                                                             0,
                                                                             4,
                                                                             euclidian_norm);
