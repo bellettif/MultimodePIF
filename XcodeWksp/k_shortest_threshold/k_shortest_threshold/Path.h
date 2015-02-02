@@ -137,7 +137,7 @@ public:
         
         m_partial_costs.insert(m_partial_costs.begin(),
                                other_path.m_partial_costs.begin(),
-                               other_path.m_partial_costs.begin() + spur_idx - 1);
+                               other_path.m_partial_costs.begin() + spur_idx);
         int offset = spur_idx;
         int partial_cost;
         if(spur_idx > 0){

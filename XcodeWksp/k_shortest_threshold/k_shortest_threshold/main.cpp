@@ -61,7 +61,7 @@ int main(int argc, const char * argv[]) {
                          std::pow(coords_1.second - coords_2.second, 2));
     };
     
-    std::vector<Path<double>*> k_best_paths = my_graph.k_shortest_threshold(10.0,
+    std::vector<Path<double>*> k_best_paths = my_graph.k_shortest_threshold(5.0,
                                                                             4,
                                                                             0,
                                                                             4,

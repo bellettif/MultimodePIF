@@ -41,6 +41,15 @@ public:
         m_edges[start][dest] = feature;
     }
 
+    inline bool contains_edge(int start, int dest){
+        if(m_edges.count(start)){
+            if(m_edges.at(start).count(dest)){
+                return true;
+            }
+        }
+        return false;
+    }
+    
     inline T remove_edge(int start, int dest){
         T temp = m_edges[start][dest];
         m_edges[start].erase(dest);

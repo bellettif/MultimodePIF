@@ -130,22 +130,23 @@ public:
                 
                 if (candidate_dist > threshold) continue;
                 
-                if(heurs_to_sink.count(dest_node) == 0){
-                    heurs_to_sink[dest_node] = candidate_dist +
-                    heuristic_fct(m_nodes[dest_node],
-                                  m_nodes[sink_node]);
-                }
-                heur_dist = heurs_to_sink[dest_node];
+                heur_dist = heuristic_fct(m_nodes[dest_node],
+                                          m_nodes[sink_node]) + candidate_dist;
                 
-                if(candidate_dist + heur_dist > threshold) continue;
+                if(heurs_to_sink[dest_node] <  heur_dist){
+                    heurs_to_sink[dest_node] = heur_dist;
+                }
+                
+                if(heur_dist > threshold) continue;
                 
                 if ((dists_from_start.count(dest_node) == 0) || // Never seen before
                     (candidate_dist < dists_from_start[dest_node])) { // Better candidate
                     dists_from_start[dest_node] = candidate_dist;
+                    heurs_to_sink[dest_node] = candidate_dist + heuristic_fct(m_nodes[dest_node],
+                                                                              m_nodes[sink_node]);
                     previous.rev_dict[dest_node] = current_node;
-                    if((closed_nd_set.count(dest_node) == 0) // Neighbor already in close set
-                       &&
-                       (active_nd_set.count(dest_node) == 0)){ // Neighbor already in active set
+                    if((closed_nd_set.count(dest_node) == 0) &&// Neighbor already in close set
+                            (active_nd_set.count(dest_node) == 0)){ // Neighbor already in active set
                         active_nds.push(dest_node);
                         active_nd_set.insert(dest_node);
                     }
@@ -177,7 +178,7 @@ public:
                            std::tuple<int, int, T2>)> comparator =
                                 [](std::tuple<int, int, T2> x,
                                    std::tuple<int, int, T2> y){
-            return x > y;
+            return x < y;
         };
         std::priority_queue<std::tuple<int, int, T2>,
                             std::vector<std::tuple<int, int, T2>>,
@@ -185,7 +186,7 @@ public:
                                                std::tuple<int, int, T2>)>> cost_record (comparator);
         int_int_path_ptr_map_map    candidate_map;
         std::vector<Path<T2>*>      result;
-        int                         prev_spur_index         = 1;
+        int                         prev_spur_index         = 0;
         int                         best_k;
         int                         best_i;
         int                         source_to_rm;
@@ -204,17 +205,14 @@ public:
                                           sink_node,
                                           heuristic_fct,
                                           threshold));
+        
         if(result[0]->empty()){ // The shortest path is already above the threshold
             delete result[0];
             result.clear();
             return result;
-        }else{
-            source_to_rm = result[0]->get_node(0);
-            dest_to_rm   = result[0]->get_node(1);
-            removed_edges[source_to_rm][dest_to_rm] =
-                m_edges.remove_edge(source_to_rm, dest_to_rm);
-            removed_nodes[source_to_rm] = remove_node(source_to_rm, removed_edges);
         }
+        
+        result.front()->plot();
         
         /*
          Run
@@ -225,18 +223,27 @@ public:
             /*
              Compute new spurs' costs
             */
+            for(int i = 0; i < prev_spur_index; ++i){
+                removed_nodes[path_ids.at(i)] = remove_node(path_ids.at(i), removed_edges);
+            }
             for(int i = prev_spur_index; i < path_ids.size() - 1; ++i){
                 
                 source_to_rm    =   path_ids.at(i);
                 dest_to_rm      =   path_ids.at(i+1);
-                removed_edges[source_to_rm][dest_to_rm] =
+                if(m_edges.contains_edge(source_to_rm, dest_to_rm)){
+                    removed_edges[source_to_rm][dest_to_rm] =
                         m_edges.remove_edge(source_to_rm, dest_to_rm);
+                    std::cout << "Deleted edge " << source_to_rm << "->" << dest_to_rm << std::endl;
+                }
                 
                 for(int j = 0; j < result.size() - 1; ++j){
                     if(result[j]->contains(*(result.back()), i)){
-                        dest_to_rm = result.back()->get_node(i + 1);
-                        removed_edges[source_to_rm][dest_to_rm] =
-                            m_edges.remove_edge(source_to_rm, dest_to_rm);
+                        dest_to_rm = result[j]->get_node(i + 1);
+                        if(m_edges.contains_edge(source_to_rm, dest_to_rm)){
+                            removed_edges[source_to_rm][dest_to_rm] =
+                                m_edges.remove_edge(source_to_rm, dest_to_rm);
+                                std::cout << "Deleted edge " << source_to_rm << "->" << dest_to_rm << std::endl;
+                        }
                     }
                 }
                 
@@ -245,17 +252,31 @@ public:
                                              heuristic_fct,
                                              threshold);
                 if(candidate->empty()){
+                    std::cout << "------------------" << std::endl;
+                    std::cout << "No valid candidate" << std::endl;
+                    std::cout << "------------------" << std::endl;
                     delete candidate;
                     continue;
                 }
+                
+                std::cout << "-------------------" << std::endl;
+                candidate->plot();
+                result.back()->plot();
                 
                 candidate->concatenate_front(*(result.back()), i);
                 cost_record.push({k_it, i, candidate->get_cost()});
                 candidate_map[k_it][i] = candidate;
                 
-                removed_nodes[source_to_rm] = remove_node(source_to_rm, removed_edges);
+                candidate->plot();
+                std::cout << "-------------------" << std::endl;
                 
+                if(m_nodes.count(source_to_rm)){
+                    removed_nodes[source_to_rm] = remove_node(source_to_rm, removed_edges);
+                    std::cout << "Deleted node " << source_to_rm << std::endl;
+                };
+             
             }
+            
             if(cost_record.empty()){
                 return result;
             }
@@ -265,7 +286,11 @@ public:
             */
             best_k = std::get<0>(cost_record.top());
             best_i = std::get<1>(cost_record.top());
+            std::cout << "-------------------------" << std::endl;
+            std::cout << "Best k = " << best_k << ", best i = " << best_i << std::endl;
             best_candidate = candidate_map[best_k][best_i];
+            std::cout << "Best cost = " << best_candidate->get_cost() << std::endl;
+            std::cout << "-------------------------" << std::endl;
             cost_record.pop();
             candidate_map[best_k].erase(best_i);
             prev_spur_index = best_i;
