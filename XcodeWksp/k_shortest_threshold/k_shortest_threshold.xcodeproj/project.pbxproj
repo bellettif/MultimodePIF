@@ -25,10 +25,10 @@
 /* Begin PBXFileReference section */
 		83FBB3AA1A7471F500B388BB /* k_shortest_threshold */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = k_shortest_threshold; sourceTree = BUILT_PRODUCTS_DIR; };
 		83FBB3AD1A7471F500B388BB /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
-		83FBB3B41A75A66200B388BB /* Graph.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Graph.h; sourceTree = "<group>"; };
-		83FBB3B51A7AD98700B388BB /* Edge_map.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Edge_map.h; sourceTree = "<group>"; };
-		83FBB3B61A7ADE5C00B388BB /* Path.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Path.h; sourceTree = "<group>"; };
-		83FBB3B71A7ADF7900B388BB /* Reversion_map.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Reversion_map.h; sourceTree = "<group>"; };
+		83FBB3B41A75A66200B388BB /* graph.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = graph.h; sourceTree = "<group>"; };
+		83FBB3B51A7AD98700B388BB /* edge_map.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = edge_map.h; sourceTree = "<group>"; };
+		83FBB3B61A7ADE5C00B388BB /* path.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = path.h; sourceTree = "<group>"; };
+		83FBB3B71A7ADF7900B388BB /* reversion_map.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = reversion_map.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -62,10 +62,10 @@
 			isa = PBXGroup;
 			children = (
 				83FBB3AD1A7471F500B388BB /* main.cpp */,
-				83FBB3B41A75A66200B388BB /* Graph.h */,
-				83FBB3B51A7AD98700B388BB /* Edge_map.h */,
-				83FBB3B61A7ADE5C00B388BB /* Path.h */,
-				83FBB3B71A7ADF7900B388BB /* Reversion_map.h */,
+				83FBB3B41A75A66200B388BB /* graph.h */,
+				83FBB3B51A7AD98700B388BB /* edge_map.h */,
+				83FBB3B61A7ADE5C00B388BB /* path.h */,
+				83FBB3B71A7ADF7900B388BB /* reversion_map.h */,
 			);
 			path = k_shortest_threshold;
 			sourceTree = "<group>";

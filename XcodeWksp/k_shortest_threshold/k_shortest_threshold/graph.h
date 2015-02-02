@@ -16,9 +16,9 @@
 #include <functional>
 #include <assert.h>
 
-#include "Edge_map.h"
-#include "Reversion_map.h"
-#include "Path.h"
+#include "edge_map.h"
+#include "reversion_map.h"
+#include "path.h"
 
 
 typedef std::unordered_map<int, int>            int_int_map;

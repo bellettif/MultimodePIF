@@ -14,8 +14,8 @@
 #include <string>
 #include <set>
 
-#include "Reversion_map.h"
-#include "Edge_map.h"
+#include "reversion_map.h"
+#include "edge_map.h"
 
 
 template<typename T>
