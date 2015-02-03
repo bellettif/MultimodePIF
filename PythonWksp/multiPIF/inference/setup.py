@@ -15,8 +15,8 @@ from Cython.Distutils import build_ext
 import numpy as np
 import os
 
-os.environ["CC"] = "g++-4.9"
-os.environ["CXX"] = "g++-4.9"
+#os.environ["CC"] = "g++-4.9"
+#os.environ["CXX"] = "g++-4.9"
 
 external_filepath = "../../../XcodeWksp/k_shortest_threshold/k_shortest_threshold" 
 
