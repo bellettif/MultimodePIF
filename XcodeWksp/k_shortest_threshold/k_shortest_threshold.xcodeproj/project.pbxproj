@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		837F3D821A8086A80026FCE6 /* exec.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 837F3D801A8086A80026FCE6 /* exec.cpp */; };
+		837F3D851A8088160026FCE6 /* geo_tools.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 837F3D831A8088160026FCE6 /* geo_tools.cpp */; };
 		83FBB3AE1A7471F500B388BB /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 83FBB3AD1A7471F500B388BB /* main.cpp */; };
 /* End PBXBuildFile section */
 
@@ -23,6 +25,10 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		837F3D801A8086A80026FCE6 /* exec.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = exec.cpp; sourceTree = "<group>"; };
+		837F3D811A8086A80026FCE6 /* exec.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = exec.h; sourceTree = "<group>"; };
+		837F3D831A8088160026FCE6 /* geo_tools.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = geo_tools.cpp; sourceTree = "<group>"; };
+		837F3D841A8088160026FCE6 /* geo_tools.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = geo_tools.h; sourceTree = "<group>"; };
 		83FBB3AA1A7471F500B388BB /* k_shortest_threshold */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = k_shortest_threshold; sourceTree = BUILT_PRODUCTS_DIR; };
 		83FBB3AD1A7471F500B388BB /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		83FBB3B41A75A66200B388BB /* graph.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = graph.h; sourceTree = "<group>"; };
@@ -66,6 +72,10 @@
 				83FBB3B51A7AD98700B388BB /* edge_map.h */,
 				83FBB3B61A7ADE5C00B388BB /* path.h */,
 				83FBB3B71A7ADF7900B388BB /* reversion_map.h */,
+				837F3D801A8086A80026FCE6 /* exec.cpp */,
+				837F3D811A8086A80026FCE6 /* exec.h */,
+				837F3D831A8088160026FCE6 /* geo_tools.cpp */,
+				837F3D841A8088160026FCE6 /* geo_tools.h */,
 			);
 			path = k_shortest_threshold;
 			sourceTree = "<group>";
@@ -126,6 +136,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				837F3D821A8086A80026FCE6 /* exec.cpp in Sources */,
+				837F3D851A8088160026FCE6 /* geo_tools.cpp in Sources */,
 				83FBB3AE1A7471F500B388BB /* main.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

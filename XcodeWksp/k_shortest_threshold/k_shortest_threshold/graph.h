@@ -62,6 +62,7 @@ public:
                 m_edges.add_edge(node_features[i].first, xy.first, xy.second);
             }
         }
+        
     }
     
     /*
@@ -212,7 +213,7 @@ public:
             return result;
         }
         
-        result.front()->plot();
+        //result.front()->plot();
         
         /*
          Run
@@ -233,7 +234,7 @@ public:
                 if(m_edges.contains_edge(source_to_rm, dest_to_rm)){
                     removed_edges[source_to_rm][dest_to_rm] =
                         m_edges.remove_edge(source_to_rm, dest_to_rm);
-                    std::cout << "Deleted edge " << source_to_rm << "->" << dest_to_rm << std::endl;
+                    //std::cout << "Deleted edge " << source_to_rm << "->" << dest_to_rm << std::endl;
                 }
                 
                 for(int j = 0; j < result.size() - 1; ++j){
@@ -242,7 +243,7 @@ public:
                         if(m_edges.contains_edge(source_to_rm, dest_to_rm)){
                             removed_edges[source_to_rm][dest_to_rm] =
                                 m_edges.remove_edge(source_to_rm, dest_to_rm);
-                                std::cout << "Deleted edge " << source_to_rm << "->" << dest_to_rm << std::endl;
+                                //std::cout << "Deleted edge " << source_to_rm << "->" << dest_to_rm << std::endl;
                         }
                     }
                 }
@@ -252,27 +253,29 @@ public:
                                              heuristic_fct,
                                              threshold);
                 if(candidate->empty()){
+                    /*
                     std::cout << "------------------" << std::endl;
                     std::cout << "No valid candidate" << std::endl;
                     std::cout << "------------------" << std::endl;
+                     */
                     delete candidate;
                     continue;
                 }
                 
-                std::cout << "-------------------" << std::endl;
-                candidate->plot();
-                result.back()->plot();
+                //std::cout << "-------------------" << std::endl;
+                //candidate->plot();
+                //result.back()->plot();
                 
                 candidate->concatenate_front(*(result.back()), i);
                 cost_record.push({k_it, i, candidate->get_cost()});
                 candidate_map[k_it][i] = candidate;
                 
-                candidate->plot();
-                std::cout << "-------------------" << std::endl;
+                //candidate->plot();
+                //std::cout << "-------------------" << std::endl;
                 
                 if(m_nodes.count(source_to_rm)){
                     removed_nodes[source_to_rm] = remove_node(source_to_rm, removed_edges);
-                    std::cout << "Deleted node " << source_to_rm << std::endl;
+                    //std::cout << "Deleted node " << source_to_rm << std::endl;
                 };
              
             }
@@ -286,11 +289,11 @@ public:
             */
             best_k = std::get<0>(cost_record.top());
             best_i = std::get<1>(cost_record.top());
-            std::cout << "-------------------------" << std::endl;
-            std::cout << "Best k = " << best_k << ", best i = " << best_i << std::endl;
+            //std::cout << "-------------------------" << std::endl;
+            //std::cout << "Best k = " << best_k << ", best i = " << best_i << std::endl;
             best_candidate = candidate_map[best_k][best_i];
-            std::cout << "Best cost = " << best_candidate->get_cost() << std::endl;
-            std::cout << "-------------------------" << std::endl;
+            //std::cout << "Best cost = " << best_candidate->get_cost() << std::endl;
+            //std::cout << "-------------------------" << std::endl;
             cost_record.pop();
             candidate_map[best_k].erase(best_i);
             prev_spur_index = best_i;
