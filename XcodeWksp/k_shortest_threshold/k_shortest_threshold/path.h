@@ -13,6 +13,7 @@
 #include <iostream>
 #include <string>
 #include <set>
+#include <algorithm>
 
 #include "reversion_map.h"
 #include "edge_map.h"
@@ -66,9 +67,8 @@ public:
         
     }
 
-    void add(int node_id, int edge_id, const T & edge_cost){
-        
-        m_ids.emplace_back({node_id, edge_id});
+    void add(int node_id, const T & edge_cost){
+        m_ids.push_back(node_id);
         m_cost += edge_cost;
         
     }

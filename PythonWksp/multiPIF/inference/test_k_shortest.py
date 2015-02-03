@@ -53,7 +53,7 @@ threshold = 10.0
 source_id = 0
 sink_id = 4
 
-compute_k_shortest_threshold(k_max,
+print compute_k_shortest_threshold(k_max,
                              threshold,
                              source_id,
                              sink_id,

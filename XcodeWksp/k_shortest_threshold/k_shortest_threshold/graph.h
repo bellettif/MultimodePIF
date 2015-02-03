@@ -15,6 +15,7 @@
 #include <set>
 #include <functional>
 #include <assert.h>
+#include <algorithm>
 
 #include "edge_map.h"
 #include "reversion_map.h"
@@ -267,7 +268,8 @@ public:
                 //result.back()->plot();
                 
                 candidate->concatenate_front(*(result.back()), i);
-                cost_record.push({k_it, i, candidate->get_cost()});
+		std::tuple<int, int, double> temp (k_it, i, candidate->get_cost());
+                cost_record.push(temp);
                 candidate_map[k_it][i] = candidate;
                 
                 //candidate->plot();

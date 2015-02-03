@@ -13,6 +13,10 @@ from Cython.Distutils import build_ext
 
 # For numpy array support
 import numpy as np
+import os
+
+os.environ["CC"] = "g++-4.9"
+os.environ["CXX"] = "g++-4.9"
 
 external_filepath = "../../../XcodeWksp/k_shortest_threshold/k_shortest_threshold" 
 
@@ -21,7 +25,7 @@ sourcefiles = ["k_shortest_thr.pyx",
 main_I = "/usr/local/include"
 main_L = ["-L/usr/local/lib"]
 
-c11_args = ["-std=c++11", "-stdlib=libc++"]
+c11_args = ["-std=c++11"]#, "-stdlib=libstdc++"]
 
 setup(
 	cmdclass = {"build_ext" : build_ext},
