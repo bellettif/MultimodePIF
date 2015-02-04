@@ -14,7 +14,7 @@
 
 struct Reversion_map{
 
-    std::unordered_map<int, int>    rev_dict;
+    std::unordered_map<long, long>    rev_dict;
     
 };
 

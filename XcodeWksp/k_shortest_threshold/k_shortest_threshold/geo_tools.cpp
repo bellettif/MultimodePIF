@@ -6,6 +6,7 @@
 //  Copyright (c) 2015 francois.belletti. All rights reserved.
 //
 
+#include <iostream>
 #include <math.h>
 
 #include "geo_tools.h"
@@ -20,10 +21,10 @@ double degrees (double r) {
 
 double geo_dist_(double lon_1, double lat_1,
                  double lon_2, double lat_2){
-    double dlon = lon_2 - lon_1;
-    double dlat = lat_2 - lat_1;
+    double dlon = radians(lon_2 - lon_1);
+    double dlat = radians(lat_2 - lat_1);
     double a = std::pow(sin(dlat * 0.5),2) + cos(lat_1) * cos(lat_2) * std::pow(sin(dlon * 0.5),2);
-    return 6378100 * 2.0 * asin(sqrt(a));
+    return 6371000 * 2.0 * atan2(sqrt(a), sqrt(1-a));
 }
 
 double geo_dist(std::pair<double, double> xy1,

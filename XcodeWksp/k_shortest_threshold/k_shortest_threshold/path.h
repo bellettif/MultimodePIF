@@ -9,6 +9,7 @@
 #ifndef k_shortest_threshold_Path_h
 #define k_shortest_threshold_Path_h
 
+#include <stdio.h>
 #include <vector>
 #include <iostream>
 #include <string>
@@ -24,7 +25,7 @@ class Path{
     
 public:
     
-    std::vector<int>            m_ids;
+    std::vector<long>           m_ids;
     T                           m_cost          = 0;
     std::vector<T>              m_partial_costs;
     std::set<std::string>       m_signature_set;
@@ -37,19 +38,23 @@ public:
     
     Path(const Reversion_map & rev_map,
          const Edge_map<T> & edge_map,
-         int start_id,
-         int sink_id){
+         long start_id,
+         long sink_id){
         
-        int current_nd_id = sink_id;
+        long current_nd_id = sink_id;
         
         m_ids.push_back(sink_id);
         
         while(current_nd_id != start_id) {
             
+            //std::cout << "Path fetching from rev map" << std::endl;
             const auto & temp = rev_map.rev_dict.at(current_nd_id);
+            //std::cout << "Path done fetching from rev map" << std::endl;
             m_ids.push_back(temp);
+            //std::cout << "Path fetching from edge_map" << std::endl;
             const T & edge_cost = edge_map.get_edge(temp,
                                                     current_nd_id);
+            //std::cout << "Path done fetching from edge_map" << std::endl;
             m_partial_costs.push_back(edge_cost);
             m_cost += edge_cost;
             
@@ -67,17 +72,17 @@ public:
         
     }
 
-    void add(int node_id, const T & edge_cost){
+    void add(long node_id, const T & edge_cost){
         m_ids.push_back(node_id);
         m_cost += edge_cost;
         
     }
     
-    const std::vector<int> & get_ids() const{
+    const std::vector<long> & get_ids() const{
         return m_ids;
     }
     
-    int get_node(int i) const{
+    long get_node(int i) const{
         return m_ids.at(i);
     }
     
@@ -103,7 +108,7 @@ public:
 
     void concatenate_front(const Path<T> & other_path){
         
-        std::vector<int> temp (other_path.m_ids);
+        std::vector<long> temp (other_path.m_ids);
         
         m_partial_signatures    =   other_path.m_partial_signatures;
         m_signature_set         =   other_path.m_signature_set;
@@ -129,7 +134,9 @@ public:
         
     }
     
-    void concatenate_front(const Path<T> & other_path, int spur_idx){
+    void concatenate_front_(const Path<T> & other_path, int spur_idx){
+        
+        int initial_size = spur_idx;
         
         m_ids.insert(m_ids.begin(),
                      other_path.m_ids.begin(),
@@ -139,7 +146,7 @@ public:
                                other_path.m_partial_costs.begin(),
                                other_path.m_partial_costs.begin() + spur_idx);
         int offset = spur_idx;
-        int partial_cost;
+        T partial_cost;
         if(spur_idx > 0){
             partial_cost = m_partial_costs[spur_idx - 1];
         }else{
@@ -151,14 +158,12 @@ public:
         }
         
         m_partial_signatures.clear();
-        m_partial_signatures.insert(m_partial_signatures.begin(),
-                                    other_path.m_partial_signatures.begin(),
-                                    other_path.m_partial_signatures.begin() + spur_idx);
         
         compute_signatures();
+        
     }
     
-    int size() const{
+    size_t size() const{
         return m_ids.size();
     }
     

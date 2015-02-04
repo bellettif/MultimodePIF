@@ -18,8 +18,8 @@ from time import mktime
 
 DTYPE = np.double
 ctypedef np.double_t DTYPE_t
-ITYPE = np.int32
-ctypedef np.int32_t ITYPE_t
+ITYPE = np.int
+ctypedef np.int_t ITYPE_t
 
 from libcpp.vector cimport vector
 from libcpp.pair cimport pair
@@ -31,17 +31,17 @@ from cython.operator cimport dereference as deref
 cdef extern from "exec.h":
     void get_k_shortest_threshold(int k_max,
                                   double threshold,
-                                  int source_id,
-                                  int sink_id,
-                                  int * ids,
+                                  long source_id,
+                                  long sink_id,
+                                  long * ids,
                                   double * lons,
                                   double * lats,
-                                  int * neigh_origins,
-                                  int * neigh_dests,
+                                  long * neigh_origins,
+                                  long * neigh_dests,
                                   double * neigh_weights,
                                   int n_vertices,
                                   int n_edges,
-                                  vector[vector[int]] & path_results,
+                                  vector[vector[long]] & path_results,
                                   vector[double] & path_costs)
 
 def compute_k_shortest_threshold(k_max,
@@ -54,7 +54,7 @@ def compute_k_shortest_threshold(k_max,
                                  np.ndarray neigh_origins,
                                  np.ndarray neigh_dests,
                                  np.ndarray neigh_weights):
-    cdef vector[vector[int]]        path_results
+    cdef vector[vector[long]]        path_results
     cdef vector[double]             path_costs
     cdef np.ndarray[ITYPE_t, ndim = 1, mode = 'c'] c_node_ids = \
         np.ascontiguousarray(node_ids, dtype = ITYPE)
@@ -70,13 +70,13 @@ def compute_k_shortest_threshold(k_max,
         np.ascontiguousarray(neigh_weights, dtype = DTYPE)
     get_k_shortest_threshold(k_max,
                              threshold,
-                             source_id,
-                             sink_id,
-                             <int *>        c_node_ids.data,
+                             <long> source_id,
+                             <long> sink_id,
+                             <long *>        c_node_ids.data,
                              <double *>     c_node_lons.data,
                              <double *>     c_node_lats.data,
-                             <int *>        c_neigh_origins.data,
-                             <int *>        c_neigh_dests.data,
+                             <long *>        c_neigh_origins.data,
+                             <long *>        c_neigh_dests.data,
                              <double *>     c_neigh_weights.data,
                              len(node_ids),
                              len(neigh_origins),

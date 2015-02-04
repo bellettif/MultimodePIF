@@ -21,7 +21,8 @@ import os
 external_filepath = "../../../XcodeWksp/k_shortest_threshold/k_shortest_threshold" 
 
 sourcefiles = ["k_shortest_thr.pyx", 
-				external_filepath + "/exec.cpp"]
+				external_filepath + "/exec.cpp",
+				external_filepath + "/geo_tools.cpp",]
 main_I = "/usr/local/include"
 main_L = ["-L/usr/local/lib"]
 

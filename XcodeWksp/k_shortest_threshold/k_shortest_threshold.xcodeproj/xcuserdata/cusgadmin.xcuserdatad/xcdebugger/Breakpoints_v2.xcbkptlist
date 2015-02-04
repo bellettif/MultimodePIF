@@ -15,8 +15,8 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "78"
             endingLineNumber = "78"
-            landmarkName = "A_star_threshold(const int &amp; start_node, const int &amp; sink_node, const std::function&lt;T2(T1, T1)&gt; &amp; heuristic_fct, const T2 &amp; threshold, const std::function&lt;bool(T2,T2)&gt; &amp; heur_comparison = std::greater&lt;T2&gt;())"
-            landmarkType = "5">
+            landmarkName = "class Graph"
+            landmarkType = "3">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -31,7 +31,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "111"
             endingLineNumber = "111"
-            landmarkName = "A_star_threshold(const int &amp; start_node, const int &amp; sink_node, const std::function&lt;T2(T1, T1)&gt; &amp; heuristic_fct, const T2 &amp; threshold, const std::function&lt;bool(T2,T2)&gt; &amp; heur_comparison = std::greater&lt;T2&gt;())"
+            landmarkName = "A_star_threshold(const long &amp; start_node, const long &amp; sink_node, const std::function&lt;T2(T1, T1)&gt; &amp; heuristic_fct, const T2 &amp; threshold, const std::function&lt;bool(T2,T2)&gt; &amp; heur_comparison = std::greater&lt;T2&gt;())"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -47,7 +47,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "37"
             endingLineNumber = "37"
-            landmarkName = "get_edge(int origin, int dest)"
+            landmarkName = "get_edge(long origin, long dest)"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -58,12 +58,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "k_shortest_threshold/path.h"
-            timestampString = "444515292.893609"
+            timestampString = "444725186.31832"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "64"
-            endingLineNumber = "64"
-            landmarkName = "Path(const Reversion_map &amp; rev_map, const Edge_map&lt;T&gt; &amp; edge_map, int start_id, int sink_id)"
+            startingLineNumber = "65"
+            endingLineNumber = "65"
+            landmarkName = "Path(const Reversion_map &amp; rev_map, const Edge_map&lt;T&gt; &amp; edge_map, long start_id, long sink_id)"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -81,6 +81,338 @@
             endingLineNumber = "24"
             landmarkName = "geo_dist(std::pair&lt;double, double&gt; xy_1, std::pair&lt;double, double&gt; xy_2)"
             landmarkType = "6">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "k_shortest_threshold/main.cpp"
+            timestampString = "444722824.801609"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "67"
+            endingLineNumber = "67"
+            landmarkName = "main(int argc, const char * argv[])"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "k_shortest_threshold/main.cpp"
+            timestampString = "444722824.801609"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "99"
+            endingLineNumber = "99"
+            landmarkName = "main(int argc, const char * argv[])"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "k_shortest_threshold/main.cpp"
+            timestampString = "444722824.801609"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "97"
+            endingLineNumber = "97"
+            landmarkName = "main(int argc, const char * argv[])"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "k_shortest_threshold/main.cpp"
+            timestampString = "444722824.801609"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "83"
+            endingLineNumber = "83"
+            landmarkName = "main(int argc, const char * argv[])"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "k_shortest_threshold/main.cpp"
+            timestampString = "444722824.801609"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "92"
+            endingLineNumber = "92"
+            landmarkName = "main(int argc, const char * argv[])"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "k_shortest_threshold/graph.h"
+            timestampString = "444726517.355638"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "294"
+            endingLineNumber = "294"
+            landmarkName = "k_shortest_threshold(const T2 &amp; threshold, unsigned int K, long start_node, long sink_node, const std::function&lt;T2(T1, T1)&gt; &amp; heuristic_fct, const std::function&lt;bool(T2,T2)&gt; &amp; heur_comparison = std::greater&lt;T2&gt;())"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "k_shortest_threshold/graph.h"
+            timestampString = "444725345.723954"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "269"
+            endingLineNumber = "269"
+            landmarkName = "k_shortest_threshold(const T2 &amp; threshold, unsigned int K, long start_node, long sink_node, const std::function&lt;T2(T1, T1)&gt; &amp; heuristic_fct, const std::function&lt;bool(T2,T2)&gt; &amp; heur_comparison = std::greater&lt;T2&gt;())"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "k_shortest_threshold/graph.h"
+            timestampString = "444726517.355638"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "293"
+            endingLineNumber = "293"
+            landmarkName = "k_shortest_threshold(const T2 &amp; threshold, unsigned int K, long start_node, long sink_node, const std::function&lt;T2(T1, T1)&gt; &amp; heuristic_fct, const std::function&lt;bool(T2,T2)&gt; &amp; heur_comparison = std::greater&lt;T2&gt;())"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "k_shortest_threshold/graph.h"
+            timestampString = "444726517.355638"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "291"
+            endingLineNumber = "291"
+            landmarkName = "k_shortest_threshold(const T2 &amp; threshold, unsigned int K, long start_node, long sink_node, const std::function&lt;T2(T1, T1)&gt; &amp; heuristic_fct, const std::function&lt;bool(T2,T2)&gt; &amp; heur_comparison = std::greater&lt;T2&gt;())"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "k_shortest_threshold/graph.h"
+            timestampString = "444726023.332196"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "286"
+            endingLineNumber = "286"
+            landmarkName = "k_shortest_threshold(const T2 &amp; threshold, unsigned int K, long start_node, long sink_node, const std::function&lt;T2(T1, T1)&gt; &amp; heuristic_fct, const std::function&lt;bool(T2,T2)&gt; &amp; heur_comparison = std::greater&lt;T2&gt;())"
+            landmarkType = "5">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Graph&lt;std::__1::pair&lt;double, double&gt;, double&gt;::k_shortest_threshold(double const&amp;, unsigned int, int, int, std::__1::function&lt;double (std::__1::pair&lt;double, double&gt;, std::__1::pair&lt;double, double&gt;)&gt; const&amp;, std::__1::function&lt;bool (double, double)&gt; const&amp;)"
+                  moduleName = "k_shortest_threshold"
+                  urlString = "file:///Users/cusgadmin/MultimodePIF/MultimodePIF/XcodeWksp/k_shortest_threshold/k_shortest_threshold/graph.h"
+                  timestampString = "444725860.062033"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "285"
+                  endingLineNumber = "285"
+                  offsetFromSymbolStart = "7940">
+               </Location>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Graph&lt;std::__1::pair&lt;double, double&gt;, double&gt;::k_shortest_threshold(double const&amp;, unsigned int, long, long, std::__1::function&lt;double (std::__1::pair&lt;double, double&gt;, std::__1::pair&lt;double, double&gt;)&gt; const&amp;, std::__1::function&lt;bool (double, double)&gt; const&amp;)"
+                  moduleName = "k_shortest_threshold"
+                  urlString = "file:///Users/cusgadmin/MultimodePIF/MultimodePIF/XcodeWksp/k_shortest_threshold/k_shortest_threshold/graph.h"
+                  timestampString = "444725860.062364"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "285"
+                  endingLineNumber = "285"
+                  offsetFromSymbolStart = "6374">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "k_shortest_threshold/path.h"
+            timestampString = "444726661.271009"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "143"
+            endingLineNumber = "143"
+            landmarkName = "concatenate_front_(const Path&lt;T&gt; &amp; other_path, int spur_idx)"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "k_shortest_threshold/path.h"
+            timestampString = "444726661.271009"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "145"
+            endingLineNumber = "145"
+            landmarkName = "concatenate_front_(const Path&lt;T&gt; &amp; other_path, int spur_idx)"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "k_shortest_threshold/path.h"
+            timestampString = "444726661.271009"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "141"
+            endingLineNumber = "141"
+            landmarkName = "concatenate_front_(const Path&lt;T&gt; &amp; other_path, int spur_idx)"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "k_shortest_threshold/path.h"
+            timestampString = "444726661.271009"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "164"
+            endingLineNumber = "164"
+            landmarkName = "concatenate_front_(const Path&lt;T&gt; &amp; other_path, int spur_idx)"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "k_shortest_threshold/path.h"
+            timestampString = "444726661.271009"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "163"
+            endingLineNumber = "163"
+            landmarkName = "concatenate_front_(const Path&lt;T&gt; &amp; other_path, int spur_idx)"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "k_shortest_threshold/graph.h"
+            timestampString = "444726517.355638"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "296"
+            endingLineNumber = "296"
+            landmarkName = "k_shortest_threshold(const T2 &amp; threshold, unsigned int K, long start_node, long sink_node, const std::function&lt;T2(T1, T1)&gt; &amp; heuristic_fct, const std::function&lt;bool(T2,T2)&gt; &amp; heur_comparison = std::greater&lt;T2&gt;())"
+            landmarkType = "5">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Graph&lt;std::__1::pair&lt;double, double&gt;, double&gt;::k_shortest_threshold(double const&amp;, unsigned int, int, int, std::__1::function&lt;double (std::__1::pair&lt;double, double&gt;, std::__1::pair&lt;double, double&gt;)&gt; const&amp;, std::__1::function&lt;bool (double, double)&gt; const&amp;)"
+                  moduleName = "k_shortest_threshold"
+                  urlString = "file:///Users/cusgadmin/MultimodePIF/MultimodePIF/XcodeWksp/k_shortest_threshold/k_shortest_threshold/graph.h"
+                  timestampString = "444725860.063203"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "293"
+                  endingLineNumber = "293"
+                  offsetFromSymbolStart = "8266">
+               </Location>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Graph&lt;std::__1::pair&lt;double, double&gt;, double&gt;::k_shortest_threshold(double const&amp;, unsigned int, long, long, std::__1::function&lt;double (std::__1::pair&lt;double, double&gt;, std::__1::pair&lt;double, double&gt;)&gt; const&amp;, std::__1::function&lt;bool (double, double)&gt; const&amp;)"
+                  moduleName = "k_shortest_threshold"
+                  urlString = "file:///Users/cusgadmin/MultimodePIF/MultimodePIF/XcodeWksp/k_shortest_threshold/k_shortest_threshold/graph.h"
+                  timestampString = "444725860.063341"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "293"
+                  endingLineNumber = "293"
+                  offsetFromSymbolStart = "6740">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "k_shortest_threshold/graph.h"
+            timestampString = "444726517.355638"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "297"
+            endingLineNumber = "297"
+            landmarkName = "k_shortest_threshold(const T2 &amp; threshold, unsigned int K, long start_node, long sink_node, const std::function&lt;T2(T1, T1)&gt; &amp; heuristic_fct, const std::function&lt;bool(T2,T2)&gt; &amp; heur_comparison = std::greater&lt;T2&gt;())"
+            landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

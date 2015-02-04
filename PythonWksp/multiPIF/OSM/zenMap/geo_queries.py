@@ -4,7 +4,7 @@ Created on Jan 4, 2015
 @author: Francois Belletti
 '''
 
-DEFAULT_MAX_DIST = 2000
+DEFAULT_MAX_DIST = 200
 
 #
 #    Coords must be given as [long, lat]

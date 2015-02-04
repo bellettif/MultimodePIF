@@ -17,17 +17,17 @@
 
 void get_k_shortest_threshold(int k_max,
                               double threshold,
-                              int source_id,
-                              int sink_id,
-                              int * ids,
+                              long source_id,
+                              long sink_id,
+                              long * ids,
                               double * lons,
                               double * lats,
-                              int * neigh_origins,
-                              int * neigh_dests,
+                              long * neigh_origins,
+                              long * neigh_dests,
                               double * neigh_weights,
                               int n_vertices,
                               int n_edges,
-                              std::vector<std::vector<int> > & path_results,
+                              std::vector<std::vector<long> > & path_results,
                               std::vector<double> & path_costs);
 
 

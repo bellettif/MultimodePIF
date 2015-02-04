@@ -22,37 +22,37 @@
 #include "path.h"
 
 
-typedef std::unordered_map<int, int>            int_int_map;
-typedef std::unordered_map<int, int_int_map>    int_int_int_map_map;
-typedef std::unordered_map<int, int_int_map>    int_int_int_map_map;
-typedef std::set<int>                           int_set;
-typedef std::unordered_map<int, int_set>        int_int_set_map;
-typedef std::vector<int>                        int_vect;
+typedef std::unordered_map<long, long>              long_long_map;
+typedef std::unordered_map<long, long_long_map>     long_long_long_map_map;
+typedef std::unordered_map<long, long_long_map>     long_long_long_map_map;
+typedef std::set<long>                              long_set;
+typedef std::unordered_map<long, long_set>          long_long_set_map;
+typedef std::vector<long>                           long_vect;
 
 
 template<typename T1, typename T2>
 class Graph{
     
-    typedef std::unordered_map<int, T1>             int_T1_map;
-    typedef std::unordered_map<int, T2>             int_T2_map;
-    typedef std::unordered_map<int, int_T2_map>     int_int_T2_map_map;
-    typedef std::pair<T2, int_vect>                 T2_int_vect_pair;
-    typedef std::vector<T2_int_vect_pair>           T2_int_vect_pair_vect;
-    typedef std::unordered_map<int, Path<T2>*>      int_path_ptr_map;
+    typedef std::unordered_map<long, T1>             long_T1_map;
+    typedef std::unordered_map<long, T2>             long_T2_map;
+    typedef std::unordered_map<long, long_T2_map>    long_long_T2_map_map;
+    typedef std::pair<T2, long_vect>                 T2_long_vect_pair;
+    typedef std::vector<T2_long_vect_pair>           T2_long_vect_pair_vect;
+    typedef std::unordered_map<int, Path<T2>*>       int_path_ptr_map;
     typedef std::unordered_map<int,
-                                int_path_ptr_map>   int_int_path_ptr_map_map;
+                               int_path_ptr_map>     int_int_path_ptr_map_map;
     
 private:
     
-    int_T1_map              m_nodes;
+    long_T1_map             m_nodes;
     Edge_map<T2>            m_edges;
     size_t                  m_N;
 
     
 public:
     
-    Graph(const std::vector< std::pair<int, T1> > & node_features,
-          const std::vector< std::vector< std::pair<int, T2> > > & neighbors){
+    Graph(const std::vector< std::pair<long, T1> > & node_features,
+          const std::vector< std::vector< std::pair<long, T2> > > & neighbors){
         
         assert(node_features.size() == neighbors.size());
         m_N = node_features.size();
@@ -77,27 +77,27 @@ public:
     @ret_val                Vector of ints that contains the series of points to sink_hole.
                             Empty if no valid path was found.
     */
-    Path<T2>* A_star_threshold(const int & start_node,
-                               const int & sink_node,
+    Path<T2>* A_star_threshold(const long & start_node,
+                               const long & sink_node,
                                const std::function<T2(T1, T1)> & heuristic_fct,
                                const T2 & threshold,
                                const std::function<bool(T2,T2)> & heur_comparison = std::greater<T2>()){
         
-        int_T2_map          dists_from_start;              // Actual distance from start
-        Reversion_map       previous;
-        int_T2_map          heurs_to_sink;                 // Heuristic distances to sink
+        long_T2_map          dists_from_start;              // Actual distance from start
+        Reversion_map        previous;
+        long_T2_map          heurs_to_sink;                 // Heuristic distances to sink
         
-        std::function<bool(int, int)> comparator = [& heurs_to_sink, & heur_comparison](int id_1, int id_2){
+        std::function<bool(long, long)> comparator = [& heurs_to_sink, & heur_comparison](long id_1, long id_2){
             return heur_comparison(heurs_to_sink[id_1], heurs_to_sink[id_2]);
             // Both heuristic distances will already have been computed
         };
         
-        std::priority_queue<int,
-                            std::vector<int>,
-                            std::function<bool(int, int)> > active_nds (comparator);
+        std::priority_queue<long,
+                            std::vector<long>,
+                            std::function<bool(long, long)> > active_nds (comparator);
         
-        int_set active_nd_set;
-        int_set closed_nd_set;
+        long_set active_nd_set;
+        long_set closed_nd_set;
         
         // Just so comparison is defined for start node
         heurs_to_sink[start_node] = heuristic_fct(m_nodes[start_node],
@@ -105,11 +105,11 @@ public:
         dists_from_start[start_node] = 0;
         active_nds.push(start_node);
         
-        int current_node;
-        int dest_node;
-        T2  current_dist;
-        T2  heur_dist;
-        T2  candidate_dist;
+        long current_node;
+        long dest_node;
+        T2   current_dist;
+        T2   heur_dist;
+        T2   candidate_dist;
         
         while(! active_nds.empty()){
             current_node = active_nds.top();
@@ -125,9 +125,12 @@ public:
             
             current_dist = dists_from_start[current_node];
             
+            //std::cout << "Graph getting edges for " << current_node << std::endl;
             for(const auto & node_dict_item : m_edges.get_edges(current_node)){
+                //std::cout << "Graph done getting edges for " << current_node << std::endl;
                 
                 dest_node = node_dict_item.first; // Other end of the edge
+                //std::cout << "Dest node = " << dest_node << std::endl;
                 candidate_dist = current_dist + node_dict_item.second;
                 
                 if (candidate_dist > threshold) continue;
@@ -167,8 +170,8 @@ public:
     */
     std::vector<Path<T2>*> k_shortest_threshold(const T2 & threshold,
                                                unsigned int K,
-                                               int start_node,
-                                               int sink_node,
+                                               long start_node,
+                                               long sink_node,
                                                const std::function<T2(T1, T1)> & heuristic_fct,
                                                const std::function<bool(T2,T2)> & heur_comparison = std::greater<T2>()){
         
@@ -191,13 +194,13 @@ public:
         int                         prev_spur_index         = 0;
         int                         best_k;
         int                         best_i;
-        int                         source_to_rm;
-        int                         dest_to_rm;
-        int_vect                    buffer;
+        long                        source_to_rm;
+        long                        dest_to_rm;
+        long_vect                   buffer;
         Path<T2> *                  candidate               = nullptr;
         Path<T2> *                  best_candidate          = nullptr;
-        int_int_T2_map_map          removed_edges;
-        int_T1_map                  removed_nodes;
+        long_long_T2_map_map        removed_edges;
+        long_T1_map                 removed_nodes;
         
         
         /*
@@ -221,17 +224,27 @@ public:
          */
         for(int k_it = 0; k_it < K - 1; ++k_it){
             
-            const std::vector<int> & path_ids = result.back()->get_ids();
+            //std::cout << "k_it = " << k_it << std::endl;
+            
+            const std::vector<long> & path_ids = result.back()->get_ids();
             /*
              Compute new spurs' costs
             */
+            //std::cout << "-------------" << std::endl;
+            //std::cout << prev_spur_index << std::endl;
+            //std::cout << path_ids.size() << std::endl;
             for(int i = 0; i < prev_spur_index; ++i){
+                //std::cout << "Shout 1" << std::endl;
+                long temp = path_ids.at(i);
                 removed_nodes[path_ids.at(i)] = remove_node(path_ids.at(i), removed_edges);
+                //std::cout << "Echo 1" << std::endl;
             }
             for(int i = prev_spur_index; i < path_ids.size() - 1; ++i){
                 
+                //std::cout << "Shout 2" << std::endl;
                 source_to_rm    =   path_ids.at(i);
                 dest_to_rm      =   path_ids.at(i+1);
+                //std::cout << "Echo 2" << std::endl;
                 if(m_edges.contains_edge(source_to_rm, dest_to_rm)){
                     removed_edges[source_to_rm][dest_to_rm] =
                         m_edges.remove_edge(source_to_rm, dest_to_rm);
@@ -254,22 +267,39 @@ public:
                                              heuristic_fct,
                                              threshold);
                 if(candidate->empty()){
-                    /*
-                    std::cout << "------------------" << std::endl;
-                    std::cout << "No valid candidate" << std::endl;
-                    std::cout << "------------------" << std::endl;
-                     */
+                    //std::cout << "------------------" << std::endl;
+                    //std::cout << "No valid candidate" << std::endl;
+                    //std::cout << "------------------" << std::endl;
                     delete candidate;
                     continue;
                 }
+                
+                //std::cout << "---------------" << std::endl;
+                //std::cout << "Valid candidate" << std::endl;
+                //std::cout << "---------------" << std::endl;
                 
                 //std::cout << "-------------------" << std::endl;
                 //candidate->plot();
                 //result.back()->plot();
                 
-                candidate->concatenate_front(*(result.back()), i);
-		std::tuple<int, int, double> temp (k_it, i, candidate->get_cost());
+                //std::cout << "\t" << i << std::endl;
+                //std::cout << "\t" << candidate->size() << std::endl;
+                
+                //std::cout << "Executing concatenate front" << std::endl;
+                candidate->concatenate_front_(*(result.back()), i);
+                //std::cout << "Done executing concatenate front" << std::endl;
+                
+                //std::cout << "\t" << candidate->size() << std::endl;
+                
+                //candidate->plot();
+                
+                std::tuple<long, long, double> temp (k_it, i, candidate->get_cost());
                 cost_record.push(temp);
+                
+                //std::cout << "\t" << candidate->size() << std::endl;
+                
+                //std::cout << candidate->size() <<  " " << i << std::endl;
+                
                 candidate_map[k_it][i] = candidate;
                 
                 //candidate->plot();
@@ -349,9 +379,9 @@ public:
     /*
     Get a path from start_node to end_node with the trace of previous nodes
     */
-    std::vector<int> revert_path(int end_node, int start_node, int_int_map previous_nodes){
-        std::vector<int> path = {end_node};
-        int prev_node = previous_nodes[end_node];
+    std::vector<long> revert_path(long end_node, long start_node, long_long_map previous_nodes){
+        std::vector<long> path = {end_node};
+        long prev_node = previous_nodes[end_node];
         while(prev_node != start_node){
             path.push_back(prev_node);
             prev_node = previous_nodes[prev_node];
@@ -361,13 +391,15 @@ public:
         return path;
     }
     
-    T2 remove_edge(int origin, int dest){
+    T2 remove_edge(long origin, long dest){
         return m_edges.remove_edge(origin, dest);
     }
     
-    T1 remove_node(int node_id, int_int_T2_map_map & removed_edges){
+    T1 remove_node(long node_id, long_long_T2_map_map & removed_edges){
         T1 buffer = m_nodes[node_id];
+        //std::cout << "Graph fetching node for removal" << std::endl;
         auto to_remove_dict (m_edges.get_edges(node_id));
+        //std::cout << "Graph done fetching node for removal" << std::endl;
         for(const auto & xy : to_remove_dict){
             removed_edges[node_id][xy.first] = m_edges.remove_edge(node_id, xy.first);
         }
@@ -375,11 +407,11 @@ public:
         return buffer;
     }
     
-    void add_node(int node_id, T1 feature){
+    void add_node(long node_id, T1 feature){
         m_nodes[node_id] = feature;
     }
     
-    void add_edge(int origin, int dest, T2 feature){
+    void add_edge(long origin, long dest, T2 feature){
         m_edges.add_edge(origin, dest, feature);
     }
     
