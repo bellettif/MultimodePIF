@@ -71,7 +71,7 @@ class Geo_network:
                 neigh_id = neigh['osm_id']
                 neigh_lon = self.lkd_nds[neigh_id]['lon']
                 neigh_lat = self.lkd_nds[neigh_id]['lat']
-                ax.plot([nd_lon, neigh_lon], [nd_lat, neigh_lat])
+                ax.plot([nd_lon, neigh_lon], [nd_lat, neigh_lat], c = 'grey', lw = 0.5)
         if len(highlight_nodes) > 0:
             longitudes = [self.lkd_nds[nd_id]['lon'] 
                           for nd_id
@@ -153,4 +153,5 @@ print path_points
 fig, (ax1, ax2) = plt.subplots(nrows = 2)
 my_network.plot(ax1, [start, end])
 my_network.plot(ax2, path_points)
-plt.show()
+plt.savefig('Example berkeley.png', dpi = 600)
+plt.close()
