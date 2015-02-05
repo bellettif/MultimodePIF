@@ -6,7 +6,10 @@ Created on Feb 3, 2015
 
 import numpy as np
 
-# Project C onto each A->B link
+#
+#    Project orthogonaly point C (pair of doubles)
+#        on each link A->B in link_coords (list of pair of doubles)
+#
 def orthogonal_proj(C, link_coords):
     n_links = len(link_coords)
     #
