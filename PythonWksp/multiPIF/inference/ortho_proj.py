@@ -6,10 +6,10 @@ Created on Feb 3, 2015
 
 import numpy as np
 
-#
-#    Project orthogonaly point C (pair of doubles)
-#        on each link A->B in link_coords (list of pair of doubles)
-#
+##    Orthogonal projection on list of candidate links
+# @param C The [lon,lat] of the point that is being projected
+# @param link_coords List of pairs [lon, lat] representing the links
+#    the point C is projected onto
 def orthogonal_proj(C, link_coords):
     n_links = len(link_coords)
     #
