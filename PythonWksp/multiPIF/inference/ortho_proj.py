@@ -1,15 +1,20 @@
 '''
 Created on Feb 3, 2015
 
+    Implementation of the orthogonal projection onto links
+
 @author: Francois Belletti
 '''
 
 import numpy as np
 
 ##    Orthogonal projection on list of candidate links
-# @param C The [lon,lat] of the point that is being projected
+# @param C The [lon,lat] of the point that is being projected.
 # @param link_coords List of pairs [lon, lat] representing the links
-#    the point C is projected onto
+#    the point C is projected onto.
+# @return Dict {'dists': list of projection distances, \n
+#                'projs' : numpy array where each line represents coords
+#                of projection on the corresponding link}
 def orthogonal_proj(C, link_coords):
     n_links = len(link_coords)
     #

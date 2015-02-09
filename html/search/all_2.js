@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['edge_5fweights',['edge_weights',['../classinference_1_1geo__network_1_1_geo__network.html#a0eaf1f248e4d1ac1196c59c2927bd1ef',1,'inference::geo_network::Geo_network']]]
+  ['download_5fosm',['download_osm',['../namespace_o_s_m_1_1zen_map_1_1graph__example.html#aad09c093523887e37fee5efe8c2344c9',1,'OSM::zenMap::graph_example']]]
 ];

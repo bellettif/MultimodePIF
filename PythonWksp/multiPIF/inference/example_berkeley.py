@@ -13,22 +13,37 @@ from matplotlib import pyplot as plt
 from OSM.misc.geoTools import computeDist
 from geo_network import Geo_network
 
+
+#
+#    Load Berkeley road network from pickled file
+#
 linked_nodes = pickle.load(open('../tempData/tempBerkeley.pi', 'rb'))
 
+#
+#    Create corresponding Geo_network object (see class documentation)
+#
 my_network = Geo_network(linked_nodes)
 
-with open('nodes.csv', 'wb') as csv_file:
-    csv_writer = csv.writer(csv_file)
-    for i, node_feat in enumerate(my_network.node_features):
-        csv_writer.writerow([node_feat[0], node_feat[1], node_feat[2]])
 
-with open('neighbours.csv', 'wb') as csv_file:
-    csv_writer = csv.writer(csv_file)
-    for i, neigh_feat in my_network.neighbours.iteritems():
-        for x in neigh_feat:
-            csv_writer.writerow([i, x[0], x[1]])
+#===============================================================================
+#
+#    For c++ debugging
+#
+# with open('nodes.csv', 'wb') as csv_file:
+#     csv_writer = csv.writer(csv_file)
+#     for i, node_feat in enumerate(my_network.node_features):
+#         csv_writer.writerow([node_feat[0], node_feat[1], node_feat[2]])
+# 
+# with open('neighbours.csv', 'wb') as csv_file:
+#     csv_writer = csv.writer(csv_file)
+#     for i, neigh_feat in my_network.neighbours.iteritems():
+#         for x in neigh_feat:
+#             csv_writer.writerow([i, x[0], x[1]])
+#===============================================================================
 
-
+#
+#    Check that network graph is well defined
+#
 for nd_id in my_network.node_ids:
     if nd_id not in my_network.node_ids:
         print "Dead end"
@@ -40,29 +55,39 @@ for neigh_origin in my_network.neigh_origins:
 for neigh_dest in my_network.neigh_dests:        
     if neigh_dest not in my_network.node_ids:
         print "Ill defined graph"
-        
+
+#
+#    Choose two nodes in the network
+#
 start = my_network.lkd_nds.keys()[0]
 end   = 240469798
 
-print my_network.lkd_nds[start]
-
+#
+#    Get their latitudes and longitudes
+#
 lon_1 = my_network.lkd_nds[start]['lon']
 lat_1 = my_network.lkd_nds[start]['lat']
-
 lon_2 = my_network.lkd_nds[end]['lon']
 lat_2 = my_network.lkd_nds[end]['lat']
 
+#
+#    Compute the distance between the two nodes
+#
 dist = computeDist(lon_1, lat_1, lon_2, lat_2)
 
+#
+#    Compute all paths betwoeen start and end whose length is below dist * 1.35
+#
 path_finding_result = my_network.find_all_paths(start, end, dist * 1.35)
 
+#
+#    Extract the ids along the first path (the shortest)
+#
 path_points = path_finding_result['paths'][1]
 
-#for path in path_finding_result['paths']:
-#    path_points.extend(path)
-    
-print path_points
-
+#
+#    Plot the path onto the network
+#
 fig, (ax1, ax2) = plt.subplots(nrows = 2)
 my_network.plot(ax1, [start, end])
 my_network.plot(ax2, path_points)

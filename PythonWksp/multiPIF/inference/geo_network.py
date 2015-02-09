@@ -118,6 +118,8 @@ class Geo_network:
     # @param end Unique id of end node in path search
     # @param upper_bound Maximum distance that is authorized for paths being searched
     # @param k_max Maximum number of paths that will be searched for
+    # @return list of dicts {'costs' : list of path dists, \n 'paths' : list of paths },
+    #    \n each path is a list of point ids. \n Paths are ordered by increasing cost.
     def find_all_paths(self, start, end, upper_bound, k_max = K_MAX):
         #
         return compute_k_shortest_threshold(K_MAX,

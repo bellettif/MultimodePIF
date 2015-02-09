@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['orthogonal_5fproj',['orthogonal_proj',['../namespaceinference_1_1ortho__proj.html#a7dd32c258fae7bbb0e57bcfa474d15d5',1,'inference::ortho_proj']]]
+  ['find_5fall_5fpaths',['find_all_paths',['../classinference_1_1geo__network_1_1_geo__network.html#a7b89a67b938a086717bb04c8dde33dac',1,'inference::geo_network::Geo_network']]]
 ];
