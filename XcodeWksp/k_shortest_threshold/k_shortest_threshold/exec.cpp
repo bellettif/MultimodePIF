@@ -28,12 +28,8 @@ void get_k_shortest_threshold(int k_max,
                               std::vector<std::vector<long> > & path_results,
                               std::vector<double> & path_costs){
     
-    std::cout << "Launching" << std::endl;
-    
     std::vector< std::pair<long, dou_dou_pair > > node_features(n_vertices);
     std::unordered_map<long, int> index_conversion;
-    
-    std::cout << "Filling nodes" << std::endl;
     
     for(int i = 0; i < n_vertices; ++i){
         //std::cout << "-" << ids[i] << " " << lons[i] << " " << lats[i] << std::endl;
@@ -43,23 +39,9 @@ void get_k_shortest_threshold(int k_max,
     
     std::vector< std::vector< std::pair<long, double> > > neighbors(n_vertices);
     
-    std::cout << "Filling temp neighbors" << std::endl;
-    
     for(int i = 0; i < n_edges; ++i){
-        //std::cout << "-" << neigh_origins[i] << std::endl;
         neighbors[index_conversion[neigh_origins[i]]].push_back({neigh_dests[i], neigh_weights[i]});
     }
-    
-    std::cout << "Ready" << std::endl;
-    /*
-     for(int i = 0; i < n_vertices; ++i){
-        std::cout << node_features[i].first << std::endl;
-        for(auto x : neighbors[i]){
-            std::cout << x.first << " ";
-        }
-        std::cout << std::endl;
-    }
-    */
     
     std::function<double(dou_dou_pair, dou_dou_pair)> euclidian_norm = [](
                                                                           dou_dou_pair coords_1, dou_dou_pair coords_2){
@@ -68,26 +50,14 @@ void get_k_shortest_threshold(int k_max,
                          std::pow(coords_1.second - coords_2.second, 2));
     };
     
-    std::cout << "Initializing graph" << std::endl;
-    std::cout << node_features.size() << std::endl;
-    std::cout << neighbors.size() << std::endl;
-    
     Graph<dou_dou_pair, double> main_graph(node_features,
                                            neighbors);
-    
-    std::cout << "Graph built" << std::endl;
-    
-    //main_graph.plot();
-    
-    std::cout << "Searching for best paths" << std::endl;
     
     std::vector<Path<double>*> k_best_paths = main_graph.k_shortest_threshold(threshold,
                                                                               k_max,
                                                                               source_id,
                                                                               sink_id,
                                                                               euclidian_norm); // Replace by geo dist for gps
-    
-    std::cout << "Found " << k_best_paths.size() << " paths" << std::endl;
     
     path_results.clear();
     path_results.resize(k_best_paths.size());
@@ -102,12 +72,9 @@ void get_k_shortest_threshold(int k_max,
         path_costs[k] = k_best_paths[k]->get_cost();
     }
     
-    std::cout << "Done with k best paths" << std::endl;
-    
     for(auto & x : k_best_paths){
         delete x ;
     }
     
-    std::cout << "Terminating" << std::endl;
 
 }

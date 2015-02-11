@@ -8,10 +8,12 @@ Created on Feb 5, 2015
 
 import cPickle as pickle
 import csv
+import numpy as np
 from matplotlib import pyplot as plt
 
-from OSM.misc.geoTools import computeDist
-from geo_network import Geo_network
+from OSM.misc.geoTools  import computeDist
+from geo_network        import Geo_network
+from fuzzy_path         import Fuzzy_path
 
 
 #
@@ -88,8 +90,46 @@ path_points = path_finding_result['paths'][1]
 #
 #    Plot the path onto the network
 #
-fig, (ax1, ax2) = plt.subplots(nrows = 2)
-my_network.plot(ax1, [start, end])
-my_network.plot(ax2, path_points)
-plt.savefig('Example berkeley.png', dpi = 600)
-plt.close()
+#===============================================================================
+# fig, (ax1, ax2) = plt.subplots(nrows = 2)
+# my_network.plot(ax1, [start, end])
+# my_network.plot(ax2, path_points)
+# plt.savefig('Example berkeley.png', dpi = 600)
+# plt.close()
+#===============================================================================
+
+
+gps_sigma = 0.0001
+gps_sigma_m = computeDist(0, 0, 
+                          np.sqrt(gps_sigma * 0.5), 
+                          np.sqrt(gps_sigma * 0.5))
+print gps_sigma_m
+eta       = 0.01
+
+random_path = my_network.generate_random_path(gps_sigma, 
+                                              20, 
+                                              eta)
+
+print random_path
+
+#
+#    Plot the path onto the network
+#
+#===============================================================================
+# fig, (ax1, ax2) = plt.subplots(nrows = 2)
+# my_network.plot(ax1, random_path['actual_ids'],
+#                      random_path['gps_meas'],
+#                      zoom = True)
+# my_network.plot_path(ax2, random_path['actual_ids'], 
+#                           random_path['gps_meas'],
+#                           zoom = True)
+# plt.savefig('Example berkeley 1.png', dpi = 600)
+# plt.close()
+#===============================================================================
+
+my_fuzzy_path = Fuzzy_path(my_network,
+                           random_path['gps_meas'], 
+                           gps_sigma_m)
+
+print my_fuzzy_path.gps_potials
+print my_fuzzy_path.proj_ids

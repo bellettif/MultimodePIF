@@ -1,7 +1,8 @@
 '''
 Created on Jan 5, 2015
 
-    Class to read OSM files in their native XML format
+    Script to read OSM files in their native XML format
+        and turn them into pickle and json dumps
 
 @author: Francois Belletti
 '''
