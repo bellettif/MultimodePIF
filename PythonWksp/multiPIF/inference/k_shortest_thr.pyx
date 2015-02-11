@@ -54,7 +54,7 @@ def compute_k_shortest_threshold(k_max,
                                  np.ndarray neigh_origins,
                                  np.ndarray neigh_dests,
                                  np.ndarray neigh_weights):
-    cdef vector[vector[long]]        path_results
+    cdef vector[vector[long]]       path_results
     cdef vector[double]             path_costs
     cdef np.ndarray[ITYPE_t, ndim = 1, mode = 'c'] c_node_ids = \
         np.ascontiguousarray(node_ids, dtype = ITYPE)
@@ -73,11 +73,11 @@ def compute_k_shortest_threshold(k_max,
                              <long> source_id,
                              <long> sink_id,
                              <long *>        c_node_ids.data,
-                             <double *>     c_node_lons.data,
-                             <double *>     c_node_lats.data,
+                             <double *>      c_node_lons.data,
+                             <double *>      c_node_lats.data,
                              <long *>        c_neigh_origins.data,
                              <long *>        c_neigh_dests.data,
-                             <double *>     c_neigh_weights.data,
+                             <double *>      c_neigh_weights.data,
                              len(node_ids),
                              len(neigh_origins),
                              path_results,

@@ -197,7 +197,7 @@ class Geo_network:
     # @return list of dicts {'costs' : list of path dists, \n 'paths' : list of paths },
     #    \n each path is a list of point ids. \n Paths are ordered by increasing cost.
     def find_all_paths(self, start, end, upper_bound, k_max = K_MAX):
-        return compute_k_shortest_threshold(K_MAX,
+        return compute_k_shortest_threshold(k_max,
                                             upper_bound,
                                             start,
                                             end,
@@ -252,11 +252,11 @@ class Geo_network:
             
     def dist_to_all_nds(self, lon, lat):
         ## Needs optimization, write a numpy version of computeDist
-        return map((lambda i : {'id' : i,
+        return map((lambda i : {'id' : self.node_ids[i],
                                 'dist' : computeDist(lon, 
                                                      lat,
                                                      self.node_lons[i], 
-                                                      self.node_lats[i])}),
+                                                     self.node_lats[i])}),
                    range(len(self.node_ids)))
         
         

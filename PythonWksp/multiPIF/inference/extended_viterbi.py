@@ -49,7 +49,7 @@ class Extended_Viterbi:
             #    The following operation should be optimized with einsum
             current_path_bwd = np.dot(np.diag(next_pos_pot), current_path_pot.T)
             self.pos_backward_potials.append(np.sum(current_path_bwd ,axis = 1))
-            self.path_backward_potials.append(np.copy(current_path_bwd))
+            self.path_backward_potials.append(current_path_bwd)
         self.pos_backward_potials.reverse()
         self.path_backward_potials.reverse()
             

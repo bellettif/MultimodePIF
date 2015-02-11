@@ -98,19 +98,29 @@ path_points = path_finding_result['paths'][1]
 # plt.close()
 #===============================================================================
 
-
+#
+# Gps std in lon, lat
 gps_sigma = 0.0001
+#
+# Gps std in meters
 gps_sigma_m = computeDist(0, 0, 
                           np.sqrt(gps_sigma * 0.5), 
                           np.sqrt(gps_sigma * 0.5))
-print gps_sigma_m
+#
+# User's sensitivity to distance
 eta       = 0.01
+#
+# Maximum user's speed in meters/second
+max_speed = 14.0
+#
+# Delta t between taking samples
+delta_t   = 120
 
 random_path = my_network.generate_random_path(gps_sigma, 
                                               20, 
                                               eta)
 
-print random_path
+n_steps = len(random_path['gps_meas'])
 
 #
 #    Plot the path onto the network
@@ -129,7 +139,11 @@ print random_path
 
 my_fuzzy_path = Fuzzy_path(my_network,
                            random_path['gps_meas'], 
-                           gps_sigma_m)
+                           gps_sigma_m,
+                           max_speed,
+                           np.ones(n_steps - 1, dtype = np.double) * delta_t,
+                           eta)
 
 print my_fuzzy_path.gps_potials
-print my_fuzzy_path.proj_ids
+
+print my_fuzzy_path.path_potials
