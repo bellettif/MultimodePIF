@@ -14,6 +14,7 @@ from matplotlib import pyplot as plt
 from OSM.misc.geoTools  import computeDist
 from geo_network        import Geo_network
 from fuzzy_path         import Fuzzy_path
+from extended_viterbi   import Extended_Viterbi
 
 
 #
@@ -144,6 +145,18 @@ my_fuzzy_path = Fuzzy_path(my_network,
                            np.ones(n_steps - 1, dtype = np.double) * delta_t,
                            eta)
 
-print my_fuzzy_path.gps_potials
+my_extended_viterbi = Extended_Viterbi(my_fuzzy_path.gps_potials,
+                                       my_fuzzy_path.path_potials)
 
-print my_fuzzy_path.path_potials
+my_extended_viterbi.compute_potials()
+my_extended_viterbi.normalize_potials()
+
+print my_extended_viterbi.pos_potials
+print my_extended_viterbi.path_potials
+
+
+
+
+
+
+
