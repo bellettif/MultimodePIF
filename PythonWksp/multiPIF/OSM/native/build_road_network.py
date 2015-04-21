@@ -8,7 +8,7 @@ Created on Jan 5, 2015
 '''
 
 INPUT_FILEPATH = "/Users/cusgadmin/MultimodePIF/Data/OSM/Berkeley/map.osm.xml"
-OUTPUT_FILEPATH = "/Users/cusgadmin/MultimodePIF/Data/OSM/Berkeley/network.geojson"
+OUTPUT_FILEPATH = '../../tempData/tempBerkeley.pi'
 
 HIGHWAY_KEY = 'highway'
 HIGHWAY_VALUES = ['primary', 'secondary', 'tertiary', 'residential']
@@ -92,15 +92,15 @@ for node_id, neigh_dict in linked_nodes.iteritems():
 #    Temporary
 #
 import cPickle as pickle
-pickle.dump(data, open('../../tempData/tempBerkeley.pi', 'wb'))
+pickle.dump(data, open(OUTPUT_FILEPATH, 'wb'))
    
 #
 #    Format is not good, need to investigate
 #
-geojson_dump = data
+#geojson_dump = data
 
 #Use --jsonArray when importing in MongoDB
-json.dump(geojson_dump, open(OUTPUT_FILEPATH, 'wb'))
+#json.dump(geojson_dump, open(OUTPUT_FILEPATH, 'wb'))
 
 #
 #    Check that degrees make sense

@@ -11,7 +11,7 @@ import numpy as np
 
 class Extended_Viterbi:
     
-    pos_potials             = [] 
+    pos_potials             = []
     path_potials            = []
     #
     pos_forward_potials     = []
