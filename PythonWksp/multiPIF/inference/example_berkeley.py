@@ -141,12 +141,12 @@ n_steps = len(random_path['gps_meas'])
 # plt.close()
 #===============================================================================
 
-my_fuzzy_path = Fuzzy_path(my_network,
-                           random_path['gps_meas'], 
-                           gps_sigma_m,
-                           max_speed,
-                           np.ones(n_steps - 1, dtype = np.double) * delta_t,
-                           eta)
+my_fuzzy_path = Fuzzy_path(my_network, # OSM network
+                           random_path['gps_meas'], # GPS traces
+                           gps_sigma_m, # Std error of the GPS
+                           max_speed, # Max speed for the mode
+                           np.ones(n_steps - 1, dtype = np.double) * delta_t, # Time stamps
+                           eta) # Sensitivity to distance of the mode.
 
 my_extended_viterbi = Extended_Viterbi(my_fuzzy_path.gps_potials,
                                        my_fuzzy_path.path_potials)
