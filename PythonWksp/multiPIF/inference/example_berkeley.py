@@ -10,6 +10,9 @@ import cPickle as pickle
 import csv
 import numpy as np
 from matplotlib import pyplot as plt
+import sys
+
+sys.path.append('../')
 
 from OSM.misc.geoTools  import computeDist
 from geo_network        import Geo_network
