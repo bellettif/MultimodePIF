@@ -141,6 +141,9 @@ n_steps = len(random_path['gps_meas'])
 # plt.close()
 #===============================================================================
 
+#
+#    One fuzzy path per mode
+#
 my_fuzzy_path = Fuzzy_path(my_network, # OSM network
                            random_path['gps_meas'], # GPS traces
                            gps_sigma_m, # Std error of the GPS
@@ -156,7 +159,6 @@ my_extended_viterbi.normalize_potials()
 
 print my_extended_viterbi.pos_potials
 print my_extended_viterbi.path_potials
-
 
 
 
