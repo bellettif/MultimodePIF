@@ -151,6 +151,9 @@ my_fuzzy_path = Fuzzy_path(my_network, # OSM network
                            np.ones(n_steps - 1, dtype = np.double) * delta_t, # Time stamps
                            eta) # Sensitivity to distance of the mode.
 
+#
+#    Out to use PIF
+#
 my_extended_viterbi = Extended_Viterbi(my_fuzzy_path.gps_potials,
                                        my_fuzzy_path.path_potials)
 
